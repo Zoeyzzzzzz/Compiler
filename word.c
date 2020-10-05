@@ -26,13 +26,13 @@ void getNbc(){
 
     	//如果是字母
     	if(isLetter()){               
-    		while(isLetter()||isDigit()){
+    		while(isLetter() || isDigit()){
 	    		cat();
 		    	getChar();
 	    	}
 	    	unGetch();
 	    	reserve(); 
-    	} 
+    	}
 
     	//如果是数字
     	else if(isDigit()){
@@ -67,8 +67,6 @@ void getNbc(){
      	
     	else if(recent=='\0') break;
       	else error();
-      	
-    	chu();
 	}
 }
 
@@ -76,12 +74,12 @@ void cat(){
 	token[token_now++] = c;
 }
 
-void isLetter(){
+int isLetter(){
 	if(isupper(c)||islower(c)) return 1;
 	else return 0;
 }
 
-void isDigit(){
+int isDigit(){
 	if(isdigit(recent)) return 1;
 	else return 0;
 }
@@ -90,18 +88,17 @@ void unGetch(){
 	now--;
 }
 
-int reserve(){
+void reserve(){
 	//非0是保留字和类别
 	//0是标识符
-	if(!strcmp(token, "BEGIN")) printf("BEGIN");
-	else if(!strcmp(token, "END")) printf("END");
-	else if(!strcmp(token, "FOR")) printf("FOR");
-	else if(!strcmp(token, "DO")) printf("DO");
-	else if(!strcmp(token, "IF")) printf("IF");
-	else if(!strcmp(token, "THEN")) printf("THEN");
-	else if(!strcmp(token, "ELSE")) printf("ELSE");
+	if(strcmp(token, "BEGIN") == 0) printf("BEGIN");
+	else if(strcmp(token, "END") == 0) printf("END");
+	else if(strcmp(token, "FOR") == 0) printf("FOR");
+	else if(strcmp(token, "DO") == 0) printf("DO");
+	else if(strcmp(token, "IF") == 0) printf("IF");
+	else if(strcmp(token, "THEN") == 0) printf("THEN");
+	else if(strcmp(token, "ELSE") == 0) printf("ELSE");
 	else printf("Ident(%s)\n", token);
-	return ;
 }
 
 int atoi(){
