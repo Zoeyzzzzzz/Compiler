@@ -24,7 +24,7 @@ int isLetter(){
 }
 
 int isDigit(){
-	if(isdigit(recent)) return 1;
+	if(isdigit(c)) return 1;
 	else return 0;
 }
 
