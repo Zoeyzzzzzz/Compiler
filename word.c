@@ -14,6 +14,52 @@ void getChar(){
 	c = line[now++];
 }
 
+void cat(){
+	token[token_now++] = c;
+}
+
+int isLetter(){
+	if(isupper(c)||islower(c)) return 1;
+	else return 0;
+}
+
+int isDigit(){
+	if(isdigit(recent)) return 1;
+	else return 0;
+}
+
+void unGetch(){
+	now--;
+}
+
+void reserve(){
+	//非0是保留字和类别
+	//0是标识符
+	if(strcmp(token, "BEGIN") == 0) printf("BEGIN");
+	else if(strcmp(token, "END") == 0) printf("END");
+	else if(strcmp(token, "FOR") == 0) printf("FOR");
+	else if(strcmp(token, "DO") == 0) printf("DO");
+	else if(strcmp(token, "IF") == 0) printf("IF");
+	else if(strcmp(token, "THEN") == 0) printf("THEN");
+	else if(strcmp(token, "ELSE") == 0) printf("ELSE");
+	else printf("Ident(%s)\n", token);
+}
+
+int atoi(){
+	int num = 0;
+	for(int i=0; i<token_now; i++){
+		num *= 10;
+		num += token[token_now] - '0';
+	}
+	return num;
+}
+
+void error(){
+	isContinue = 1;
+	printf("Unknown\n");
+}
+
+
 void getNbc(){
 	while(line[now]!='\0' && isContinue==0){
 		memset(token,'\0',sizeof(token));
@@ -70,50 +116,6 @@ void getNbc(){
 	}
 }
 
-void cat(){
-	token[token_now++] = c;
-}
-
-int isLetter(){
-	if(isupper(c)||islower(c)) return 1;
-	else return 0;
-}
-
-int isDigit(){
-	if(isdigit(recent)) return 1;
-	else return 0;
-}
-
-void unGetch(){
-	now--;
-}
-
-void reserve(){
-	//非0是保留字和类别
-	//0是标识符
-	if(strcmp(token, "BEGIN") == 0) printf("BEGIN");
-	else if(strcmp(token, "END") == 0) printf("END");
-	else if(strcmp(token, "FOR") == 0) printf("FOR");
-	else if(strcmp(token, "DO") == 0) printf("DO");
-	else if(strcmp(token, "IF") == 0) printf("IF");
-	else if(strcmp(token, "THEN") == 0) printf("THEN");
-	else if(strcmp(token, "ELSE") == 0) printf("ELSE");
-	else printf("Ident(%s)\n", token);
-}
-
-int atoi(){
-	int num = 0;
-	for(int i=0; i<token_now; i++){
-		num *= 10;
-		num += token[token_now] - '0';
-	}
-	return num;
-}
-
-void error(){
-	isContinue = 1;
-	printf("Unknown\n");
-}
 
 
 int main(int argc, char *argv[]){
