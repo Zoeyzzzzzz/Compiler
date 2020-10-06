@@ -45,7 +45,7 @@ void reserve(){
 	else printf("Ident(%s)\n", token);
 }
 
-int atoi(){
+int atoiNew(){
 	int num = 0;
 	for(int i=0; i<token_now; i++){
 		num *= 10;
@@ -87,7 +87,7 @@ void getNbc(){
     			getChar();
     		}
 	    	unGetch();
-	    	printf("Int(%d)\n", atoi());
+	    	printf("Int(%d)\n", atoiNew());
     	}
 
     	//如果是单字符分界符
