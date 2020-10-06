@@ -8,7 +8,7 @@ char token[500], line[1001];
 //now代表现在进行的字符位置
 //isContinue代表是否继续扫描
 //token_now代表当前单词字符串的末位置
-int now = 0, isContinue=0, token_now=0;
+int now = 0, isContinue = 0, token_now = 0;
 
 void getChar(){
 	c = line[now++];
@@ -49,7 +49,7 @@ int atoiNew(){
 	int num = 0;
 	for(int i=0; i<token_now; i++){
 		num *= 10;
-		num += token[token_now] - '0';
+		num += token[i] - '0';
 	}
 	return num;
 }
@@ -111,7 +111,7 @@ void getNbc(){
 		
     	}
      	
-    	else if(c=='\0') break;
+    	else if(c == '\0') break;
       	else error();
 	}
 }
