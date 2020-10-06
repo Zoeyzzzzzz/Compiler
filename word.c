@@ -35,13 +35,13 @@ void unGetch(){
 void reserve(){
 	//非0是保留字和类别
 	//0是标识符
-	if(strcmp(token, "BEGIN") == 0) printf("BEGIN\n");
-	else if(strcmp(token, "END") == 0) printf("END\n");
-	else if(strcmp(token, "FOR") == 0) printf("FOR\n");
-	else if(strcmp(token, "DO") == 0) printf("DO\n");
-	else if(strcmp(token, "IF") == 0) printf("IF\n");
-	else if(strcmp(token, "THEN") == 0) printf("THEN\n");
-	else if(strcmp(token, "ELSE") == 0) printf("ELSE\n");
+	if(strcmp(token, "BEGIN") == 0) printf("Begin\n");
+	else if(strcmp(token, "END") == 0) printf("End\n");
+	else if(strcmp(token, "FOR") == 0) printf("For\n");
+	else if(strcmp(token, "DO") == 0) printf("Do\n");
+	else if(strcmp(token, "IF") == 0) printf("If\n");
+	else if(strcmp(token, "THEN") == 0) printf("Then\n");
+	else if(strcmp(token, "ELSE") == 0) printf("Else\n");
 	else printf("Ident(%s)\n", token);
 }
 
