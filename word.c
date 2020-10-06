@@ -35,13 +35,13 @@ void unGetch(){
 void reserve(){
 	//非0是保留字和类别
 	//0是标识符
-	if(strcmp(token, "BEGIN") == 0) printf("BEGIN");
-	else if(strcmp(token, "END") == 0) printf("END");
-	else if(strcmp(token, "FOR") == 0) printf("FOR");
-	else if(strcmp(token, "DO") == 0) printf("DO");
-	else if(strcmp(token, "IF") == 0) printf("IF");
-	else if(strcmp(token, "THEN") == 0) printf("THEN");
-	else if(strcmp(token, "ELSE") == 0) printf("ELSE");
+	if(strcmp(token, "BEGIN") == 0) printf("BEGIN\n");
+	else if(strcmp(token, "END") == 0) printf("END\n");
+	else if(strcmp(token, "FOR") == 0) printf("FOR\n");
+	else if(strcmp(token, "DO") == 0) printf("DO\n");
+	else if(strcmp(token, "IF") == 0) printf("IF\n");
+	else if(strcmp(token, "THEN") == 0) printf("THEN\n");
+	else if(strcmp(token, "ELSE") == 0) printf("ELSE\n");
 	else printf("Ident(%s)\n", token);
 }
 
@@ -120,7 +120,7 @@ void getNbc(){
 
 int main(int argc, char *argv[]){
 	FILE *fp = fopen(argv[1],"r");
-	if(fp == NULL) printf("error"); 
+	if(fp == NULL) printf("error\n"); 
 
 	while(fgets(line,1000,fp)!=NULL && isContinue==0){
 		now = 0;
