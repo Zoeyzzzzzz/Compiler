@@ -91,14 +91,14 @@ void getNbc(){
     	}
 
     	//如果是单字符分界符
-    	else if(recent=='+') printf("Plus\n");
-    	else if(recent=='*') printf("Star\n");
-    	else if(recent==',') printf("Comma\n");
-    	else if(recent=='(') printf("LParenthesis\n");
-    	else if(recent==')') printf("RParenthesis\n");
+    	else if(c == '+') printf("Plus\n");
+    	else if(c == '*') printf("Star\n");
+    	else if(c == ',') printf("Comma\n");
+    	else if(c == '(') printf("LParenthesis\n");
+    	else if(c == ')') printf("RParenthesis\n");
 
     	//如果是冒号状态，分下一个是等号还是非等号
-    	else if(recent==':'){
+    	else if(c == ':'){
     		//继续读下一个
     		getChar();
     		//如果是等号
@@ -111,7 +111,7 @@ void getNbc(){
 		
     	}
      	
-    	else if(recent=='\0') break;
+    	else if(c=='\0') break;
       	else error();
 	}
 }
@@ -122,7 +122,7 @@ int main(int argc, char *argv[]){
 	FILE *fp = fopen(argv[1],"r");
 	if(fp == NULL) printf("error"); 
 
-	while(fgets(txt,1000,fp)!=NULL && isContinue==0){
+	while(fgets(line,1000,fp)!=NULL && isContinue==0){
 		now = 0;
 		getNbc();
 		memset(line,'\0',sizeof(line));
