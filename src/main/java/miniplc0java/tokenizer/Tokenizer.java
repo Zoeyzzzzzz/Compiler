@@ -68,7 +68,7 @@ public class Tokenizer {
             token += it.nextChar();
         }
 
-        if(token.equals("Begin"))
+        if(token.equals("Begin") ||  token.equals("begin"))
             return new Token(TokenType.Begin, token, it.previousPos(), it.currentPos());
 
         else if(token.equals("End"))
