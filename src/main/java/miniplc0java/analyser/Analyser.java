@@ -211,7 +211,7 @@ public final class Analyser {
         //语句序列
         analyseStatementSequence();
 
-        throw new Error("Not implemented");
+//        throw new Error("Not implemented");
     }
 
     private void analyseConstantDeclaration() throws CompileError {
@@ -271,7 +271,7 @@ public final class Analyser {
 
             // 加入符号表，请填写名字和当前位置（报错用）
             String name = /* 名字 */ (String)nameToken.getValue();
-            addSymbol(name, false, false, /* 当前位置 */ nameToken.getStartPos());
+            addSymbol(name, initialized, false, /* 当前位置 */ nameToken.getStartPos());
 
             // 如果没有初始化的话在栈里推入一个初始值
             if (!initialized) {
@@ -306,7 +306,7 @@ public final class Analyser {
                 break;
             }
         }
-        throw new Error("Not implemented");
+//        throw new Error("Not implemented");
     }
 
     private int analyseConstantExpression() throws CompileError {
@@ -473,6 +473,6 @@ public final class Analyser {
         if (negate) {
             instructions.add(new Instruction(Operation.SUB));
         }
-        throw new Error("Not implemented");
+//        throw new Error("Not implemented");
     }
 }
