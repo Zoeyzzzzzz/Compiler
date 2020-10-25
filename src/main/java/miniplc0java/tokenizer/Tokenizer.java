@@ -68,16 +68,20 @@ public class Tokenizer {
             token += it.nextChar();
         }
 
-        if(token.equals("Begin") ||  token.equals("begin"))
+        //test  后面多加了个或
+        if(token.equals("Begin") || token.equals("begin"))
             return new Token(TokenType.Begin, token, it.previousPos(), it.currentPos());
 
-        else if(token.equals("End"))
+        else if(token.equals("End") || token.equals("end"))
             return new Token(TokenType.End, token, it.previousPos(), it.currentPos());
 
-        else if(token.equals("Var"))
+        else if(token.equals("Var") || token.equals("var"))
             return new Token(TokenType.Var, token, it.previousPos(), it.currentPos());
 
-        else if(token.equals("Const"))
+        else if(token.equals("Const") || token.equals("const"))
+            return new Token(TokenType.Const, token, it.previousPos(), it.currentPos());
+
+        else if(token.equals("Print") || token.equals("print"))
             return new Token(TokenType.Print, token, it.previousPos(), it.currentPos());
 
         else
