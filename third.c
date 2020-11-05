@@ -66,7 +66,7 @@ int doUp(){
 		printf("R\n");
 	}
 	else{
-		printf("RE\n");
+		//printf("RE\n");
 		return 0;
 	} 
 	return 1;
