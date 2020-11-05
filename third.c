@@ -55,7 +55,10 @@ int doUp(){
 	//E -> E+E
 	//E -> E*E
 	//E -> i
-	if(sign[topS] == 'i') sign[topS] = 'E';
+	if(sign[topS] == 'i') {
+		sign[topS] = 'E';
+		printf("R\n");
+	}
 	else if(topS >= 2 && sign[topS] == 'E' && (sign[topS-1]=='+'||sign[topS-1]=='*') && sign[topS-2]=='E'){
 		sign[topS-1] = '\0';
 		sign[topS] = '\0';
