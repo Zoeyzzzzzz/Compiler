@@ -102,6 +102,7 @@ void begin(){
 			//删除符号栈里最后一个终结符号，并且略过输入串的现在这个符号，继续读入输入串的下一个
 			for(int i=lastS; i<topS; i++) sign[i] = sign[i+1];
 			topL++;
+			printf("I)\n");
 			printf("R\n");
 		}
 
