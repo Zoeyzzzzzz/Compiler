@@ -82,7 +82,7 @@ void begin(){
 		}
 
 		//如果符号栈内优先级高，规约
-		else if(p == 1){
+		else if(p == 1 || sign[lastS] == '#'){
 			if(doUp() == 0) break;
 		}
 
