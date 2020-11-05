@@ -68,15 +68,8 @@ int doUp(){
 		topS = topS-2;
 		printf("R\n");
 	}
-	// else if(topS >= 2 && sign[topS] == ')' && sign[topS-1]=='E' && sign[topS-2]=='('){
-	// 	sign[topS-1] = '\0';
-	// 	sign[topS] = '\0';
-	// 	sign[topS-2] = 'E';
-	// 	topS = topS-2;
-	// 	printf("R\n");
-	// }
 	else{
-		// printf("RE\n");
+		printf("RE\n");
 		return 0;
 	} 
 	// printf("%s\n", sign);
@@ -140,8 +133,6 @@ int main(int argc, char *argv[]){
 	//开始分析
 	begin();
 
-	//判断是否结束失败
-	if(sign[0] != '#' || sign[1] != 'E' || strlen(sign) != 2) printf("RE\n");
 
 	//结束准备
 	fclose(file);
