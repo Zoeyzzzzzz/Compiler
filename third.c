@@ -14,12 +14,13 @@ int topS = 0;
 //符号栈的最后一个终结符号
 int lastS = 0;
 //算符优先矩阵
-int priority[5][5] = {
-	1, -1, -1, 1, -1, 
-	1, 1, -1, 1, -1, 
-	-1, -1, -1, 0, -1, 
-	1, 1, 2, 1, 2, 
-	1, 1, 2, 1, 2 };
+int priority[6][6] = {
+	1, -1, -1, 1, -1, 1,
+	1, 1, -1, 1, -1, 1,
+	-1, -1, -1, 0, -1, 1,
+	1, 1, 2, 1, 2, 1,
+	1, 1, 2, 1, 2, 1,
+	-1, -1, -1, -1, -1, 2};
 
 //算符优先判断
 int compare(char a, char b){
@@ -29,6 +30,7 @@ int compare(char a, char b){
 	else if(a == '(') x = 2;
 	else if(a == ')') x = 3;
 	else if(a == 'i') x = 4;
+	else if(a == '#') x = 5;
 	else return 2;
 
 	if(b == '+') y = 0;
@@ -36,6 +38,7 @@ int compare(char a, char b){
 	else if(b == '(') y = 2;
 	else if(b == ')') y = 3;
 	else if(b == 'i') y = 4;
+	else if(b == '#') y = 5;
 	else return 2;
 
 	return priority[x][y];
@@ -87,13 +90,13 @@ void begin(){
 		// if(sign[lastS] == '#' && line[topL] == '#') break;
 
 		//如果符号栈内优先级低，或者符号栈里只有#，入栈，输出I
-		if(p == -1 || sign[lastS] == '#'){
+		if(p == -1 ){
 			sign[++topS] = line[topL];
 			printf("I%c\n", line[topL++]);
 		}
 
 		//如果符号栈内优先级高，规约
-		else if(p == 1 || line[topL] == '#'){
+		else if(p == 1 ){
 			if(doUp() == 0) break;
 		}
 
