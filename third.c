@@ -60,10 +60,10 @@ int doUp(){
 		sign[topS-1] = '\0';
 		sign[topS] = '\0';
 		topS = topS-2;
-		printf("R");
+		printf("R\n");
 	}
 	else{
-		printf("RE");
+		printf("RE\n");
 		return 0;
 	} 
 	return 1;
@@ -78,7 +78,7 @@ void begin(){
 		//如果符号栈内优先级低，或者符号栈里只有#，入栈，输出I
 		if(p == -1 || sign[topS] == '#'){
 			sign[++topS] = line[topL];
-			printf("I%c", line[topL++]);
+			printf("I%c\n", line[topL++]);
 		}
 
 		//如果符号栈内优先级高，规约
@@ -91,12 +91,12 @@ void begin(){
 			//删除符号栈里最后一个终结符号，并且略过输入串的现在这个符号，继续读入输入串的下一个
 			for(int i=lastS; i<topS; i++) sign[i] = sign[i+1];
 			topL++;
-			printf("R");
+			printf("R\n");
 		}
 
 		//不能识别或无法比较符号优先关系的栈顶和读入符号，输出一行E
 		else{
-			printf("E");
+			printf("E\n");
 			break;
 		}
 	}
@@ -117,7 +117,7 @@ int main(int argc, char *argv[]){
 	begin();
 
 	//判断是否结束失败
-	if(sign[0] != '#' || sign[1] != 'E' || sizeof(sign) != 2) printf("RE");
+	if(sign[0] != '#' || sign[1] != 'E' || sizeof(sign) != 2) printf("RE\n");
 
 	//结束准备
 	fclose(file);
