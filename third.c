@@ -102,6 +102,7 @@ void begin(){
 			printf("E\n");
 			break;
 		}
+		findLastTerminal();
 		if(sign[lastS] == '#') break;
 	}
 }
