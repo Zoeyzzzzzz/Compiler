@@ -77,6 +77,7 @@ void begin(){
 	while(line[topL]!='\n'){
 		findLastTerminal();
 		int p = compare(sign[lastS], line[topL]);
+		if(sign[lastS] == '#') break;
 
 		//如果符号栈内优先级低，或者符号栈里只有#，入栈，输出I
 		if(p == -1 || sign[lastS] == '#'){
