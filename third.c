@@ -51,7 +51,7 @@ void findLastTerminal(){
 }
 
 //规约
-void do(){
+void doUp(){
 	//E -> E+E
 	//E -> E*E
 	//E -> i
@@ -67,7 +67,7 @@ void do(){
 
 //开始算符优先分析
 void begin(){
-	while(top<sizeof(line)){
+	while(topL<sizeof(line)){
 		findLastTerminal();
 		int p = compare(sign[lastS], line[topL])
 
@@ -79,7 +79,7 @@ void begin(){
 
 		//如果符号栈内优先级高，规约
 		else if(p == 1){
-			do();
+			doUp();
 		}
 
 		//如果优先级相同，则删除这两个符号
