@@ -79,6 +79,7 @@ int doUp(){
 		// printf("RE\n");
 		return 0;
 	} 
+	printf("%s", sign);
 	return 1;
 }
 
@@ -108,6 +109,7 @@ void begin(){
 			topL++;
 			printf("I)\n");
 			printf("R\n");
+			printf("%s", sign);
 		}
 
 		//如果是两个#，则结束
