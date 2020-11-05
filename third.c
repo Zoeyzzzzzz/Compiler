@@ -74,7 +74,7 @@ int doUp(){
 
 //开始算符优先分析
 void begin(){
-	while(topL<strlen(line)-2){
+	while(line[topL]!='\n'){
 		findLastTerminal();
 		int p = compare(sign[lastS], line[topL]);
 
