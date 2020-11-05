@@ -74,7 +74,7 @@ int doUp(){
 
 //开始算符优先分析
 void begin(){
-	while(topL<sizeof(line)){
+	while(topL<strlen(line)-1){
 		findLastTerminal();
 		int p = compare(sign[lastS], line[topL]);
 
@@ -111,7 +111,7 @@ int main(int argc, char *argv[]){
 	fgets(line,1000,file);
 	//让符号栈的第一个是#，输入串的最后一个是#
 	sign[0] = '#';
-	line[sizeof(line)] = '#';
+	line[strlen(line)-2] = '#';
 
 	//设置算符优先矩阵
 	//暂时手动输入
@@ -120,7 +120,7 @@ int main(int argc, char *argv[]){
 	begin();
 
 	//判断是否结束失败
-	if(sign[0] != '#' || sign[1] != 'E' || sizeof(sign) != 2) printf("RE\n");
+	if(sign[0] != '#' || sign[1] != 'E' || strlen(sign) != 2) printf("RE\n");
 
 	//结束准备
 	fclose(file);
