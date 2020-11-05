@@ -51,7 +51,7 @@ void findLastTerminal(){
 }
 
 //规约
-void doUp(){
+int doUp(){
 	//E -> E+E
 	//E -> E*E
 	//E -> i
@@ -62,7 +62,11 @@ void doUp(){
 		topS = topS-2;
 		printf("R");
 	}
-	else printf("RE");
+	else{
+		printf("RE");
+		return 0;
+	} 
+	return 1;
 }
 
 //开始算符优先分析
@@ -79,7 +83,7 @@ void begin(){
 
 		//如果符号栈内优先级高，规约
 		else if(p == 1){
-			doUp();
+			if(doUp() == 0) break;
 		}
 
 		//如果优先级相同，则删除这两个符号
@@ -93,6 +97,7 @@ void begin(){
 		//不能识别或无法比较符号优先关系的栈顶和读入符号，输出一行E
 		else{
 			printf("E");
+			break;
 		}
 	}
 }
