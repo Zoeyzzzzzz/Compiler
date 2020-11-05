@@ -76,13 +76,13 @@ void begin(){
 		int p = compare(sign[lastS], line[topL]);
 
 		//如果符号栈内优先级低，或者符号栈里只有#，入栈，输出I
-		if(p == -1 || sign[topS] == '#'){
+		if(p == -1 || sign[lastS] == '#'){
 			sign[++topS] = line[topL];
 			printf("I%c\n", line[topL++]);
 		}
 
 		//如果符号栈内优先级高，规约
-		else if(p == 1 || sign[lastS] == '#'){
+		else if(p == 1){
 			if(doUp() == 0) break;
 		}
 
