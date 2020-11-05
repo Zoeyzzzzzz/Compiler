@@ -72,7 +72,6 @@ int doUp(){
 		printf("RE\n");
 		return 0;
 	} 
-	// printf("%s\n", sign);
 	return 1;
 }
 
@@ -81,7 +80,6 @@ void begin(){
 	while(line[topL]!='\n'){
 		findLastTerminal();
 		int p = compare(sign[lastS], line[topL]);
-		// if(sign[lastS] == '#' && line[topL] == '#') break;
 
 		//如果符号栈内优先级低，或者符号栈里只有#，入栈，输出I
 		if(p == -1 ){
