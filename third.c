@@ -108,6 +108,7 @@ void begin(){
 			topL++;
 			printf("I)\n");
 			printf("R\n");
+			printf("%s\n", sign);
 		}
 
 		//如果是两个#，则结束
