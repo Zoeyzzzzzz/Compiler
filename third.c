@@ -69,7 +69,7 @@ void doUp(){
 void begin(){
 	while(topL<sizeof(line)){
 		findLastTerminal();
-		int p = compare(sign[lastS], line[topL])
+		int p = compare(sign[lastS], line[topL]);
 
 		//如果符号栈内优先级低，或者符号栈里只有#，入栈，输出I
 		if(p == -1 || sign[topS] == '#'){
