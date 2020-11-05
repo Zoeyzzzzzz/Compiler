@@ -65,8 +65,15 @@ int doUp(){
 		topS = topS-2;
 		printf("R\n");
 	}
+	else if(topS >= 2 && sign[topS] == ')' && sign[topS-1]=='E' && sign[topS-2]=='('){
+		sign[topS-1] = '\0';
+		sign[topS] = '\0';
+		sign[topS-2] = 'E';
+		topS = topS-2;
+		printf("R\n");
+	}
 	else{
-		//printf("RE\n");
+		// printf("RE\n");
 		return 0;
 	} 
 	return 1;
