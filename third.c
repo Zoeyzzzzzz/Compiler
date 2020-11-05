@@ -68,13 +68,13 @@ int doUp(){
 		topS = topS-2;
 		printf("R\n");
 	}
-	else if(topS >= 2 && sign[topS] == ')' && sign[topS-1]=='E' && sign[topS-2]=='('){
-		sign[topS-1] = '\0';
-		sign[topS] = '\0';
-		sign[topS-2] = 'E';
-		topS = topS-2;
-		printf("R\n");
-	}
+	// else if(topS >= 2 && sign[topS] == ')' && sign[topS-1]=='E' && sign[topS-2]=='('){
+	// 	sign[topS-1] = '\0';
+	// 	sign[topS] = '\0';
+	// 	sign[topS-2] = 'E';
+	// 	topS = topS-2;
+	// 	printf("R\n");
+	// }
 	else{
 		// printf("RE\n");
 		return 0;
@@ -113,6 +113,7 @@ void begin(){
 		else if(p == 3){
 			break;
 		}
+		
 		//不能识别或无法比较符号优先关系的栈顶和读入符号，输出一行E
 		else{
 			printf("E\n");
