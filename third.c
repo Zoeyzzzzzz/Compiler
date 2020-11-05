@@ -79,6 +79,7 @@ int doUp(){
 		// printf("RE\n");
 		return 0;
 	} 
+	printf("%s\n", sign);
 	return 1;
 }
 
@@ -113,7 +114,7 @@ void begin(){
 		else if(p == 3){
 			break;
 		}
-		
+
 		//不能识别或无法比较符号优先关系的栈顶和读入符号，输出一行E
 		else{
 			printf("E\n");
