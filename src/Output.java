@@ -115,7 +115,7 @@ public class Output {
         for (int i = 0; i < x.length();i++){
             char c = x.charAt(i);
             if(c=='\n') output.add((byte) 13);
-            output.add((byte)(c&0xff));
+            else output.add((byte)(c&0xff));
         }
     }
 
