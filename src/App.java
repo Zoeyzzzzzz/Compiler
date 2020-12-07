@@ -8,12 +8,12 @@ public class App {
             Tokenizer.processSource(inputStream);
             System.out.println("\n------------------Analyser Start");
             Analyser.analyseProgram();
-            System.out.println(Analyser.getGlobals().size());
+            System.out.println(“全局符号个数”+Analyser.getGlobals().size());
             for (Global global : Analyser.getGlobals()) {
                 System.out.println(global);
             }
             System.out.println("-----------------------------function");
-            System.out.println(Analyser.getStartFunction());
+            System.out.println("起始函数"+Analyser.getStartFunction());
             for (FunctionDef functionDef : Analyser.getFunctionDefs()) {
                 System.out.println(functionDef);
             }
