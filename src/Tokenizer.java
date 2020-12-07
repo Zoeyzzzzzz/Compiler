@@ -254,7 +254,7 @@ public class Tokenizer {
             }
         }
         //不要双引号
-        String without = stringLiteral.substring(1, stringLiteral.length()-1);
+        String without = stringLiteral.substring(1, stringLiteral.length());
         return new Token(TokenType.STRING_LITERAL, without, it.previousPos(), it.currentPos());
     }
 }
