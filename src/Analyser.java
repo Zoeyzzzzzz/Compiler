@@ -154,7 +154,7 @@ public final class Analyser {
     private Symbol searchSymbolByToken(Token token){
         String name = (String) token.getValue();
         //在符号表里查找
-        for(int i=0; i<symbolTable.size(); i++){
+        for(int i=symbolTable.size()-1; i>=0; i--){
             //如果遇到名字相同的则返回位置
             if(symbolTable.get(i).getName().equals(name)) return symbolTable.get(i);
         }
