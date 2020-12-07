@@ -232,6 +232,7 @@ public class Tokenizer {
                 }
             }
         }
-        return new Token(TokenType.STRING_LITERAL, stringLiteral, it.previousPos(), it.currentPos());
+        String without = stringLiteral.substring(1, stringLiteral.length()-1);
+        return new Token(TokenType.STRING_LITERAL, without, it.previousPos(), it.currentPos());
     }
 }
