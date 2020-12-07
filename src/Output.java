@@ -24,7 +24,7 @@ public class Output {
     public List<Byte> transfer(){
         //放magic和version
         addInt(4, magic);
-        addInt(4, magic);
+        addInt(4, version);
 
         //放globals.count
         addInt(4, globalTable.size());
