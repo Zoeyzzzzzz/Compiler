@@ -179,6 +179,7 @@ public class Tokenizer {
                 else throw new Exception();
                 input = inputStream.read();
         }
+        System.out.println(token.getVal());
         return token;
     }
 
