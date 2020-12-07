@@ -359,7 +359,7 @@ public final class Analyser {
             //将该符号加入符号表
             //如果是全局变量
             if(floor == 1)
-                addSymbol(name, false, type, isInitialized, floor, params, "", ident.getStartPos(), -1, -1, localCount);
+                addSymbol(name, false, type, isInitialized, floor, params, "", ident.getStartPos(), -1, -1, globalCount);
             //如果是局部变量
             else
                 addSymbol(name, false, type, isInitialized, floor, params, "", ident.getStartPos(), -1, localCount, -1);
@@ -424,7 +424,7 @@ public final class Analyser {
             //将该符号加入符号表
             //如果是全局变量
             if(floor == 1)
-                addSymbol(name, true, type, isInitialized, floor, params, "", ident.getStartPos(), -1, -1, localCount);
+                addSymbol(name, true, type, isInitialized, floor, params, "", ident.getStartPos(), -1, -1, globalCount);
                 //如果是局部变量
             else
                 addSymbol(name, true, type, isInitialized, floor, params, "", ident.getStartPos(), -1, localCount, -1);
