@@ -239,21 +239,29 @@ public class Tokenizer {
 //    }
     //字符串常量
     private Token lexString() throws TokenizeError {
+//        String stringLiteral = "";
+//        it.nextChar();
+//        //对于字符串常量
+//        //当前是"，下一个是"内的
+//        boolean xie = false;
+//        while(true){
+//            if(xie == false && it.peekChar() == '"') break;
+//            else if(it.peekChar() == '\\'){
+//                xie = true;
+//                it.nextChar();
+//            }
+//            else{
+//                xie = false;
+//                stringLiteral += it.nextChar();
+//            }
+//        }
         String stringLiteral = "";
-        it.nextChar();
-        //对于字符串常量
-        //当前是"，下一个是"内的
-        boolean xie = false;
+        char pre = it.nextChar();
         while(true){
-            if(xie == false && it.peekChar() == '"') break;
-            else if(it.peekChar() == '\\'){
-                xie = true;
-                it.nextChar();
-            }
-            else{
-                xie = false;
-                stringLiteral += it.nextChar();
-            }
+            char now = it.nextChar();
+            if(now == '"' && pre != '/') break;
+            if(now!='/') stringLiteral+=now;
+            pre = now;
         }
         return new Token(TokenType.STRING_LITERAL, stringLiteral, it.previousPos(), it.currentPos());
     }
