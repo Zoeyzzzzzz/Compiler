@@ -179,7 +179,6 @@ public class Tokenizer {
                 else throw new Exception();
                 input = inputStream.read();
         }
-        System.out.println(token.getVal());
         return token;
     }
 
@@ -196,7 +195,7 @@ public class Tokenizer {
     public static Token readToken() {
         if (it.hasNext()) {
             Token token = it.next();
-            //System.out.print(token.getVal()+" ");
+            System.out.print(token.getVal()+" ");
             return token;
         }
         return null;
