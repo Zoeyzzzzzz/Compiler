@@ -39,7 +39,7 @@ public class FunctionDef {
     @Override
     public String toString() {
         return "FunctionDef{\n" +
-                "   id=" + id +
+                "    id=" + id +
                 ",\n    returnSlots=" + returnSlots +
                 ",\n    paramSlots=" + paramSlots +
                 ",\n    localSlots=" + localSlots +
