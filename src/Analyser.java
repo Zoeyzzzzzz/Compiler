@@ -987,6 +987,8 @@ public final class Analyser {
         //分析函数块
         analyseBlockStmt();
 
+        //更改局部变量个数
+        function.setLocSlots(localCount);
 
         //验证当前函数是否有return语句
         //如果当前函数返回void，则可以没有return语句
