@@ -49,6 +49,7 @@ public class Output {
             }
         }
 
+
         //放functions.count
         addInt(4, functionTable.size() + 1);
 
@@ -58,6 +59,7 @@ public class Output {
         //放其他函数
         for(Function function:functionTable)
             transferFunction(function);
+
 
         return output;
     }
@@ -112,6 +114,7 @@ public class Output {
     private void addString(String x) {
         for (int i = 0; i < x.length();i++){
             char c = x.charAt(i);
+            if(c=='\n') output.add((byte) 13);
             output.add((byte)(c&0xff));
         }
     }
