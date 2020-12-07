@@ -235,12 +235,6 @@ public class Tokenizer {
         }
         //不要双引号
         String without = stringLiteral.substring(1, stringLiteral.length()-1);
-        String[] a = without.split("\n");
-        String aws = new String();
-        for(String aa:a) aws += aa + "\n";
-        aws = aws.substring(0,aws.length()-1);
-        return new Token(TokenType.STRING_LITERAL, aws, it.previousPos(), it.currentPos());
-//        String without = stringLiteral.substring(1, stringLiteral.length()-1);
-//        return new Token(TokenType.STRING_LITERAL, without, it.previousPos(), it.currentPos());
+        return new Token(TokenType.STRING_LITERAL, without, it.previousPos(), it.currentPos());
     }
 }
