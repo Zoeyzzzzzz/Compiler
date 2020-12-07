@@ -239,7 +239,7 @@ public class Tokenizer {
 //    }
     //字符串常量
     private Token lexString() throws TokenizeError {
-        String stringLiteral = "\"";
+        String stringLiteral = "";
         it.nextChar();
         boolean xie = false;
         while(true){
@@ -253,8 +253,6 @@ public class Tokenizer {
                 stringLiteral = stringLiteral + it.nextChar();
             }
         }
-        //不要双引号
-        String without = stringLiteral.substring(1, stringLiteral.length());
-        return new Token(TokenType.STRING_LITERAL, without, it.previousPos(), it.currentPos());
+        return new Token(TokenType.STRING_LITERAL, stringLiteral, it.previousPos(), it.currentPos());
     }
 }
