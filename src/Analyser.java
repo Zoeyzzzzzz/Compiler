@@ -588,11 +588,7 @@ public final class Analyser {
         //加载等式左边的符号
         //如果该ident是参数
         if (symbol.getIsParam() != -1) {
-            //看这里
-//            //函数在符号表里的位置
-//            int functionLocation = searchSymbolByName((String) ident.getValue()) - symbol.getIsParam() - 1;
-//            //获取函数名字
-//            Symbol func = symbolTable.get(functionLocation);
+            //获取该参数的函数
             Symbol func = symbol.getFunction();
 
             //参数存在ret_slots后面
@@ -799,10 +795,7 @@ public final class Analyser {
         //如果该ident是参数
         if (symbol.getIsParam() != -1) {
             System.out.println("看这里1");
-//            //函数在符号表里的位置
-//            int functionLocation = searchSymbolByName((String) ident.getValue()) - symbol.getIsParam() - 1;
-//            //获取函数名字
-//            Symbol func = symbolTable.get(functionLocation);
+            //获取该参数的函数
             Symbol func = symbol.getFunction();
             //参数存在ret_slots后面
             if (func.getReturnType().equals("int"))
