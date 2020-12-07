@@ -988,7 +988,10 @@ public final class Analyser {
         analyseBlockStmt();
 
         //更改局部变量个数
+        function.setId(globalCount);
         function.setLocSlots(localCount);
+        function.setBody(instructions);
+        function.setFloor(floor);
 
         //验证当前函数是否有return语句
         //如果当前函数返回void，则可以没有return语句
