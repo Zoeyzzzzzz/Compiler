@@ -1,3 +1,4 @@
+import java.sql.SQLOutput;
 
 public class Tokenizer {
 
@@ -216,22 +217,24 @@ public class Tokenizer {
         String stringLiteral = "\"";
         it.nextChar();
         while(true){
+            if(it.peekChar() == '"') break;
             if(it.peekChar() != '"') stringLiteral = stringLiteral + it.nextChar();
-            //双引号可能被转义
-            else{
-                if(stringLiteral.charAt(stringLiteral.length()-1) == '\\'){
-                    if(stringLiteral.length() > 1 && stringLiteral.charAt(stringLiteral.length()-2) == '\\'){
-                        stringLiteral += it.nextChar();
-                        break;
-                    }
-                    else stringLiteral += it.nextChar();
-                }
-                else{
-                    stringLiteral += it.nextChar();
-                    break;
-                }
-            }
+//            //双引号可能被转义
+//            else{
+//                if(stringLiteral.charAt(stringLiteral.length()-1) == '\\'){
+//                    if(stringLiteral.length() > 1 && stringLiteral.charAt(stringLiteral.length()-2) == '\\'){
+//                        stringLiteral += it.nextChar();
+//                        break;
+//                    }
+//                    else stringLiteral += it.nextChar();
+//                }
+//                else{
+//                    stringLiteral += it.nextChar();
+//                    break;
+//                }
+//            }
         }
+        //不要双引号
         String without = stringLiteral.substring(1, stringLiteral.length()-1);
         return new Token(TokenType.STRING_LITERAL, without, it.previousPos(), it.currentPos());
     }
