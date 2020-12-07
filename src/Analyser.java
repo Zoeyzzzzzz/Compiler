@@ -173,12 +173,12 @@ public final class Analyser {
      * @param returnType 函数的返回类型
      * @param isParam 该符号是参数吗
      */
-    private void addSymbol(String name, boolean isConst, String type, boolean isInitialized, int floor, List<Symbol> params, String returnType, Pos curPos, int isParam, int localId, int globalId) throws AnalyzeError {
+    private void addSymbol(String name, boolean isConst, String type, boolean isInitialized, int floor, List<Symbol> params, String returnType, Pos curPos, int isParam, Symbol function, int localId, int globalId) throws AnalyzeError {
         //判断在符号表里有没有与当前符号相同的名字
         int same = searchSymbolByName(name);
         //如果没有一样的名字
         if(same == -1)
-            this.symbolTable.add(new Symbol(name, isConst, type, isInitialized, getNextVariableOffset(), floor, params, returnType, isParam, localId, globalId));
+            this.symbolTable.add(new Symbol(name, isConst, type, isInitialized, getNextVariableOffset(), floor, params, returnType, isParam, function, localId, globalId));
         //如果有一样的名字
         else{
             //获得该一样名字的符号
@@ -187,7 +187,7 @@ public final class Analyser {
             if(symbol.getFloor() == floor)
                 throw new AnalyzeError(ErrorCode.DuplicateDeclaration, curPos);
             //如果层数不一样则加入符号表
-            this.symbolTable.add(new Symbol(name, isConst, type, isInitialized, getNextVariableOffset(), floor, params, returnType, isParam, localId, globalId));
+            this.symbolTable.add(new Symbol(name, isConst, type, isInitialized, getNextVariableOffset(), floor, params, returnType, isParam, function, localId, globalId));
         }
     }
 
@@ -359,10 +359,10 @@ public final class Analyser {
             //将该符号加入符号表
             //如果是全局变量
             if(floor == 1)
-                addSymbol(name, false, type, isInitialized, floor, params, "", ident.getStartPos(), -1, -1, globalCount);
+                addSymbol(name, false, type, isInitialized, floor, params, "", ident.getStartPos(), -1, null, -1, globalCount);
             //如果是局部变量
             else
-                addSymbol(name, false, type, isInitialized, floor, params, "", ident.getStartPos(), -1, localCount, -1);
+                addSymbol(name, false, type, isInitialized, floor, params, "", ident.getStartPos(), -1, null, localCount, -1);
         //如果不一致则报错
         else
             throw new AnalyzeError(ErrorCode.Break, peekedToken.getStartPos());
@@ -424,10 +424,10 @@ public final class Analyser {
             //将该符号加入符号表
             //如果是全局变量
             if(floor == 1)
-                addSymbol(name, true, type, isInitialized, floor, params, "", ident.getStartPos(), -1, -1, globalCount);
+                addSymbol(name, true, type, isInitialized, floor, params, "", ident.getStartPos(), -1, null, -1, globalCount);
                 //如果是局部变量
             else
-                addSymbol(name, true, type, isInitialized, floor, params, "", ident.getStartPos(), -1, localCount, -1);
+                addSymbol(name, true, type, isInitialized, floor, params, "", ident.getStartPos(), -1, null, localCount, -1);
         //如果不一致则报错
         else throw new AnalyzeError(ErrorCode.Break, peekedToken.getStartPos());
 
@@ -585,16 +585,16 @@ public final class Analyser {
      * @throws CompileError
      */
     private String analyseAssignExpr(Symbol symbol, Token ident) throws CompileError{
-//        //先判断左侧的符号是否在符号表里，是null就不在符号表里
-//        if(symbol == null)
-//            throw new AnalyzeError(ErrorCode.Break, peekedToken.getStartPos());
         //加载等式左边的符号
         //如果该ident是参数
         if (symbol.getIsParam() != -1) {
-            //函数在符号表里的位置
-            int funcationLocation = searchSymbolByName((String) ident.getValue()) - symbol.getIsParam() - 1;
-            //获取函数名字
-            Symbol func = symbolTable.get(funcationLocation);
+            //看这里
+//            //函数在符号表里的位置
+//            int functionLocation = searchSymbolByName((String) ident.getValue()) - symbol.getIsParam() - 1;
+//            //获取函数名字
+//            Symbol func = symbolTable.get(functionLocation);
+            Symbol func = symbol.getFunction();
+
             //参数存在ret_slots后面
             if (func.getReturnType().equals("int"))
                 instructions.add(new Instruction("arga", 1 + symbol.getIsParam()));
@@ -711,43 +711,43 @@ public final class Analyser {
 
         if(name.equals("getint")){
             returnType = "int";
-            return new Symbol(name, false, "function", true, 0, floor, params, returnType, -1, -1, -1);
+            return new Symbol(name, false, "function", true, 0, floor, params, returnType, -1,null,  -1, -1);
         }
         else if(name.equals("getdouble")){
             returnType = "double";
-            return new Symbol(name, false, "function", true, 0, floor, params, returnType, -1, -1, -1);
+            return new Symbol(name, false, "function", true, 0, floor, params, returnType, -1,null, -1, -1);
         }
         else if(name.equals("getchar")){
             returnType = "int";
-            return new Symbol(name, false, "function", true, 0, floor, params, returnType, -1, -1, -1);
+            return new Symbol(name, false, "function", true, 0, floor, params, returnType, -1,null, -1, -1);
         }
         else if(name.equals("putint")){
             returnType = "void";
             param.setType("int");
             params.add(param);
-            return new Symbol(name, false, "function", true, 0, floor, params, returnType, -1, -1, -1);
+            return new Symbol(name, false, "function", true, 0, floor, params, returnType, -1,null, -1, -1);
         }
         else if(name.equals("putdouble")){
             returnType = "void";
             param.setType("double");
             params.add(param);
-            return new Symbol(name, false, "function", true, 0, floor, params, returnType, -1, -1, -1);
+            return new Symbol(name, false, "function", true, 0, floor, params, returnType, -1,null, -1, -1);
         }
         else if(name.equals("putchar")){
             returnType = "void";
             param.setType("int");
             params.add(param);
-            return new Symbol(name, false, "function", true, 0, floor, params, returnType, -1, -1, -1);
+            return new Symbol(name, false, "function", true, 0, floor, params, returnType, -1,null, -1, -1);
         }
         else if(name.equals("putstr")){
             returnType = "void";
             param.setType("string");
             params.add(param);
-            return new Symbol(name, false, "function", true, 0, floor, params, returnType, -1, -1, -1);
+            return new Symbol(name, false, "function", true, 0, floor, params, returnType, -1,null, -1, -1);
         }
         else if(name.equals("putln")){
             returnType = "void";
-            return new Symbol(name, false, "function", true, 0, floor, params, returnType, -1, -1, -1);
+            return new Symbol(name, false, "function", true, 0, floor, params, returnType, -1,null, -1, -1);
         }
         else
             return null;
@@ -798,10 +798,12 @@ public final class Analyser {
             throw new AnalyzeError(ErrorCode.Break, ident.getStartPos());
         //如果该ident是参数
         if (symbol.getIsParam() != -1) {
-            //函数在符号表里的位置
-            int funcationLocation = searchSymbolByName((String) ident.getValue()) - symbol.getIsParam() - 1;
-            //获取函数名字
-            Symbol func = symbolTable.get(funcationLocation);
+            System.out.println("看这里1");
+//            //函数在符号表里的位置
+//            int functionLocation = searchSymbolByName((String) ident.getValue()) - symbol.getIsParam() - 1;
+//            //获取函数名字
+//            Symbol func = symbolTable.get(functionLocation);
+            Symbol func = symbol.getFunction();
             //参数存在ret_slots后面
             if (func.getReturnType().equals("int"))
                 instructions.add(new Instruction("arga", 1 + symbol.getIsParam()));
@@ -963,14 +965,14 @@ public final class Analyser {
         expect(TokenType.L_PAREN);
         //在参数符号之前先插入函数符号
         //函数声明时floor还不加，属于上一层
-        addSymbol(name, true, "function", true, floor, params, returnType, ident.getStartPos(), -1, -1, globalCount);
+        addSymbol(name, true, "function", true, floor, params, returnType, ident.getStartPos(), -1,null, -1, globalCount);
+        Symbol symbol = searchSymbolByToken(ident);
         //开始插入参数符号
         if(!check(TokenType.R_PAREN))
-            analyseFunctionParamList(params);
+            analyseFunctionParamList(params, symbol);
         expect(TokenType.R_PAREN);
         expect(TokenType.ARROW);
         returnType = analyseTy();
-        Symbol symbol = searchSymbolByToken(ident);
         //将参数列表和返回类型赋值
         symbol.setParams(params);
         symbol.setReturnType(returnType);
@@ -1015,12 +1017,12 @@ public final class Analyser {
      * @param params 函数参数列表，填入该参数列表
      * @throws CompileError
      */
-    private void analyseFunctionParamList(List<Symbol> params) throws CompileError{
+    private void analyseFunctionParamList(List<Symbol> params, Symbol symbol) throws CompileError{
         int i = 0;
-        params.add(analyseFunctionParam(i));
+        params.add(analyseFunctionParam(i, symbol));
         while(check(TokenType.COMMA)){
             next();
-            params.add(analyseFunctionParam(++i));
+            params.add(analyseFunctionParam(++i, symbol));
         }
     }
 
@@ -1030,7 +1032,7 @@ public final class Analyser {
      * @return
      * @throws CompileError
      */
-    private Symbol analyseFunctionParam(int i) throws CompileError{
+    private Symbol analyseFunctionParam(int i, Symbol symbol) throws CompileError{
         String name;
         boolean isConst = false;
         String type;
@@ -1047,7 +1049,7 @@ public final class Analyser {
         //获取名字
         name = (String) ident.getValue();
         //插入符号表，此时因为还没进入代码块，所以层数还没+1，手动将层数+1
-        addSymbol(name, isConst, type, isInitialized, floor+1, null, "", ident.getStartPos(), i, -1, -1);
+        addSymbol(name, isConst, type, isInitialized, floor+1, null, "", ident.getStartPos(), i, symbol, -1, -1);
         return searchSymbolByToken(ident);
     }
 
