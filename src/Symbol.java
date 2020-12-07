@@ -31,6 +31,8 @@ public class Symbol {
 
     //是否是函数参数,如果不是则为-1，如果是则为在函数参数列表的位置
     int isParam;
+    //如果是参数，则为其函数符号；如果不是则为null
+    Symbol function;
 
     //如果是局部变量，他的id;如果不是，-1
     int localId;
@@ -38,7 +40,7 @@ public class Symbol {
     int globalId;
 
     //构造函数
-    public Symbol(String name, boolean isConst, String type, boolean isInitialized, int stackOffset, int floor, List<Symbol> params, String returnType, int isParam, int localId, int globalId){
+    public Symbol(String name, boolean isConst, String type, boolean isInitialized, int stackOffset, int floor, List<Symbol> params, String returnType, int isParam, Symbol function, int localId, int globalId){
         this.name = name;
         this.isConst = isConst;
         this.type = type;
@@ -48,6 +50,7 @@ public class Symbol {
         this.params = params;
         this.returnType = returnType;
         this.isParam = isParam;
+        this.function = function;
         this.localId = localId;
         this.globalId = globalId;
     }
@@ -141,5 +144,13 @@ public class Symbol {
 
     public void setGlobalId(int globalId) {
         this.globalId = globalId;
+    }
+
+    public Symbol getFunction() {
+        return function;
+    }
+
+    public void setFunction(Symbol function) {
+        this.function = function;
     }
 }
