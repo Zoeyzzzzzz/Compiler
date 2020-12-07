@@ -14,7 +14,7 @@ public class App {
                 System.out.println(global);
             }
             System.out.println("-----------------------------function");
-            System.out.println("起始函数："+Analyser.getStartFunction());
+            System.out.println("起始函数：\n"+Analyser.getStartFunction());
             System.out.println("函数：");
             for (FunctionDef functionDef : Analyser.getFunctionDefs()) {
                 System.out.println(functionDef);
