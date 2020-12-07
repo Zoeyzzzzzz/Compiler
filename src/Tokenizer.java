@@ -241,6 +241,8 @@ public class Tokenizer {
     private Token lexString() throws TokenizeError {
         String stringLiteral = "";
         it.nextChar();
+        //对于字符串常量
+        //当前是"，下一个是"内的
         boolean xie = false;
         while(true){
             if(xie == false && it.peekChar() == '"') break;
@@ -249,8 +251,8 @@ public class Tokenizer {
                 it.nextChar();
             }
             else{
-                xie = true;
-                stringLiteral = stringLiteral + it.nextChar();
+                xie = false;
+                stringLiteral += it.nextChar();
             }
         }
         return new Token(TokenType.STRING_LITERAL, stringLiteral, it.previousPos(), it.currentPos());
