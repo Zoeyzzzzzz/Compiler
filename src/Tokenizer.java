@@ -269,7 +269,7 @@ public class Tokenizer {
                 }
                 else if(now == '\\') {
                     stringLiteral += "\\";
-                    pre = "";
+                    pre = 'c';
             i--;
                 }
                 else if(now == '"'){
