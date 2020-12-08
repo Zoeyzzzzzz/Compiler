@@ -257,12 +257,16 @@ public class Tokenizer {
         int i = 65535;
         while(i>0){
             char now = it.nextChar();
+            if(pre == '\\'){
+                if(now == 'n') stringLiteral += "\n";
+                else if(now == '\\') stringLiteral += "\\";
+                else if(now == '|') stringLiteral+= '|';
+            }
             if(now == '"' && pre != '\\') break;
-            stringLiteral += now;
+            if(now != '\\') stringLiteral += now;
             pre = now;
             i--;
         }
-        System.out.println(stringLiteral+"看这里！！！");
         return new Token(TokenType.STRING_LITERAL, stringLiteral, it.previousPos(), it.currentPos());
     }
 }
