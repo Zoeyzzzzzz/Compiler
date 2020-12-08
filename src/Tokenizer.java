@@ -262,16 +262,15 @@ public class Tokenizer {
             if(now == '\\') cou = !cou;
 
             if(now == '"' && pre != '\\') break;
-            else if(pre == '\\' ){
+            else if(pre == '\\' && cou == false){
                 if(now == 'n'){
                     stringLiteral += "\n";
                     cou = !cou;
                 }
                 else if(now == '\\' && cou == true) {
                     stringLiteral += "\\";
-                    cou = !cou;
                 }
-                else if(now == '"'){
+                else if(now == '"' && cou == false){
                     stringLiteral += '"';
                     cou = !cou;
                 }
