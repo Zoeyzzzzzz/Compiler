@@ -309,6 +309,11 @@ public class Tokenizer {
                     pre = '"';
                     i--;
                 }
+                else if(now == '\''){
+                    stringLiteral += '\'';
+                    pre = '\'';
+                    i--;
+                }
             }
             else {
                 if (now == '"') break;
