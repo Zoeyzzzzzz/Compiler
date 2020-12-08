@@ -258,7 +258,8 @@ public class Tokenizer {
         while(i>0){
             char now = it.nextChar();
             if(now == '"' && pre != '\\') break;
-            if(now!='\\') stringLiteral += now;
+//            if(now!='\\') stringLiteral += now;
+            stringLiteral += now;
             pre = now;
             i--;
         }
