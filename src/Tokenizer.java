@@ -47,7 +47,11 @@ public class Tokenizer {
         else if (peek == '_') {
             return lexIdent();
         }
-        //运算符或注释
+        //注释
+        else if(peek == '/'){
+            return lexComment();
+        }
+        //运算符
         else {
             return lexOperatorOrAnnotation();
         }
@@ -117,6 +121,22 @@ public class Tokenizer {
 
         else
             return new Token(TokenType.IDENT, token, it.previousPos(), it.currentPos());
+    }
+
+    private Token lexComment() throws TokenizeError{
+        char pre = it.nextChar();
+        char now = it.nextChar();
+        if(pre == now && pre == '/'){
+            int i = 1000;
+            while(i>0){
+                if(pre == '\\' && now == 'n')
+                    return new Token(TokenType.COMMENT, "//", it.previousPos(), it.currentPos());
+                pre = now;
+                i--;
+                now = it.nextChar();
+            }
+        }
+        throw new TokenizeError(ErrorCode.InvalidInput, it.previousPos());
     }
 
     private Token lexOperatorOrAnnotation() throws TokenizeError {
@@ -215,74 +235,6 @@ public class Tokenizer {
         return new Token(TokenType.IDENT, token, it.previousPos(), it.currentPos());
     }
 
-//    //标识符
-//    private Token lexIdent() throws TokenizeError {
-//        String token="";
-//        while(Character.isLetterOrDigit(it.peekChar())){
-//            token = token + it.nextChar();
-//        }
-//        return new Token(TokenType.IDENT, token, it.previousPos(), it.currentPos());
-//    }
-
-//    //字符串常量
-//    private Token lexString() throws TokenizeError {
-//        String stringLiteral = "\"";
-//        it.nextChar();
-//        int i = 65535;
-//        while(i>0){
-//            if(it.peekChar() != '"') stringLiteral = stringLiteral + it.nextChar();
-//            //双引号可能被转义
-//            else{
-//                if(stringLiteral.charAt(stringLiteral.length()-1) == '\\'){
-//                    if(stringLiteral.length() > 1 && stringLiteral.charAt(stringLiteral.length()-2) == '\\'){
-//                        stringLiteral += it.nextChar();
-//                        break;
-//                    }
-//                    else stringLiteral += it.nextChar();
-//                }
-//                else{
-//                    stringLiteral += it.nextChar();
-//                    break;
-//                }
-//            }
-//            i--;
-//        }
-//        //不要双引号
-//        String without = stringLiteral.substring(1, stringLiteral.length()-1);
-//        return new Token(TokenType.STRING_LITERAL, without, it.previousPos(), it.currentPos());
-//    }
-//    //字符串常量
-//    private Token lexString() throws TokenizeError {
-//        String stringLiteral = "";
-//        char pre = it.nextChar();
-//        int i = 65535;
-//        char now;
-//        while(i>0){
-//            now = it.nextChar();
-//
-//            if(now == '"' && pre != '\\') break;
-//            else if(pre == '\\' ){
-//                if(now == 'n'){
-//                    stringLiteral += "\n";
-//                }
-//                else if(now == '\\') {
-//                    stringLiteral += "\\";
-//                }
-//                else if(now == '"'){
-//                    stringLiteral += '"';
-//                }
-//                else{
-//                    stringLiteral += now;
-//                }
-//            }
-//            else if(now != '\\'){
-//                stringLiteral += now;
-//            }
-//            pre = now;
-//            i--;
-//        }
-//        return new Token(TokenType.STRING_LITERAL, stringLiteral, it.previousPos(), it.currentPos());
-//    }
 
     //字符串常量
     private Token lexString() throws TokenizeError {
