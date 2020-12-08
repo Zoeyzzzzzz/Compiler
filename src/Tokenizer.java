@@ -256,35 +256,32 @@ public class Tokenizer {
         char pre = it.nextChar();
         int i = 65535;
         char now;
-        boolean cou = false;
         while(i>0){
             now = it.nextChar();
-            if(cou == true){
-                stringLiteral += now;
-                cou = false;
-            }
+             
+
             if(now == '"' && pre != '\\') break;
             else if(pre == '\\'){
                 if(now == 'n'){
                     stringLiteral += "\n";
-                    cou = false;
+                   
                 }
                 else if(now == '\\') {
                     stringLiteral += "\\";
-                    cou = true;
+                    
                 }
                 else if(now == '"'){
                     stringLiteral += '"';
-                    cou = false;
+                  
                 }
                 else{
                     stringLiteral += now;
-                    cou = false;
+                 
                 }
             }
             else if(now != '\\'){
                 stringLiteral += now;
-                cou = false;
+            
             }
             pre = now;
             i--;
