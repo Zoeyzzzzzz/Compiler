@@ -255,10 +255,17 @@ public class Tokenizer {
         String stringLiteral = "";
         char pre = it.nextChar();
         int i = 65535;
+        char now;
         while(i>0){
-            char now = it.nextChar();
+            now = it.nextChar();
             if(now == '"' && pre != '\\') break;
             else if(pre == '\\'){
+                while(now == '\\'){
+                    stringLiteral += "\\";
+                    pre = now;
+                    i--;
+                    now = it.nextChar();
+                }
                 if(now == 'n') stringLiteral += "\n";
                 else if(now == '\\') stringLiteral += "\\";
                 else if(now == '"') stringLiteral += '"';
