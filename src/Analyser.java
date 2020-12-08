@@ -1195,7 +1195,8 @@ public final class Analyser {
 
         isInWhile++;
         analyseBlockStmt();
-        isInWhile--;
+        if(isInWhile > 0) isInWhile--;
+
 
         //跳回while 判断语句
         Instruction instruction = new Instruction("br", 0);
@@ -1280,6 +1281,7 @@ public final class Analyser {
             throw new AnalyzeError(ErrorCode.Break, peekedToken.getStartPos());
         breakInstruction = new Instruction("br", instructions.size() + 1);
         instructions.add(breakInstruction);
+        System.out.println("看到这里了吗1？");
         expect(TokenType.SEMICOLON);
         isInWhile = 0;
     }
