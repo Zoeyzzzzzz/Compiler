@@ -257,13 +257,13 @@ public class Tokenizer {
         int i = 65535;
         while(i>0){
             char now = it.nextChar();
-            if(pre == '\\'){
+            if(now == '"' && pre != '\\') break;
+            else if(pre == '\\'){
                 if(now == 'n') stringLiteral += "\n";
                 else if(now == '\\') stringLiteral += "\\";
                 else if(now == '"') stringLiteral += '"';
                 else stringLiteral += now;
             }
-            else if(now == '"' && pre != '\\') break;
             else if(now != '\\') stringLiteral += now;
             pre = now;
             i--;
