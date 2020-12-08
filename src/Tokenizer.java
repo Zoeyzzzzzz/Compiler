@@ -145,7 +145,8 @@ public class Tokenizer {
                         now = it.nextChar();
                     }
                 }
-                return new Token(TokenType.DIV, '/', it.previousPos(), it.currentPos());
+                else
+                    return new Token(TokenType.DIV, '/', it.previousPos(), it.currentPos());
 
             //=或者==
             case '=':
