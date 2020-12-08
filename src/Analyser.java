@@ -1200,8 +1200,15 @@ public final class Analyser {
         instructions.add(instruction);
         int whileEnd = instructions.size();
         instruction.setX(whileStart - whileEnd);
-        if(continueInstruction != null) continueInstruction.setX(whileEnd-1-continueInstruction.getX());
-        if(breakInstruction != null) breakInstruction.setX(whileEnd - breakInstruction.getX());
+
+        if(continueInstruction != null){
+            System.out.println("continue的偏移：" + (whileEnd-1-continueInstruction.getX()));
+            continueInstruction.setX(whileEnd-1-continueInstruction.getX());
+        }
+        if(breakInstruction != null){
+            System.out.println("break的偏移：" + (whileEnd - breakInstruction.getX()));
+            breakInstruction.setX(whileEnd - breakInstruction.getX());
+        }
         jumpInstruction.setX(instructions.size() - index);
     }
 
