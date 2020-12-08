@@ -1200,8 +1200,6 @@ public final class Analyser {
         instructions.add(instruction);
         int whileEnd = instructions.size();
         instruction.setX(whileStart - whileEnd);
-        System.out.println("continue的offset:" + (whileEnd-1-continueInstruction.getX()));
-        System.out.println("break的offset:" + (whileEnd - breakInstruction.getX()));
         if(continueInstruction != null) continueInstruction.setX(whileEnd-1-continueInstruction.getX());
         if(breakInstruction != null) breakInstruction.setX(whileEnd - breakInstruction.getX());
         jumpInstruction.setX(instructions.size() - index);
@@ -1267,7 +1265,7 @@ public final class Analyser {
         //如果当前语句不在循环体内，则报错
         if(isInWhile == false)
             throw new AnalyzeError(ErrorCode.Break, peekedToken.getStartPos());
-        breakInstruction = new Instruction("br", instructions.size()+1);
+        breakInstruction = new Instruction("br", instructions.size() + 1);
         instructions.add(breakInstruction);
         expect(TokenType.SEMICOLON);
     }
@@ -1281,7 +1279,7 @@ public final class Analyser {
         expect(TokenType.CONTINUE_KW);
         if(isInWhile == false)
             throw new AnalyzeError(ErrorCode.Break, peekedToken.getStartPos());
-        continueInstruction = new Instruction("br", instructions.size()+1);
+        continueInstruction = new Instruction("br", instructions.size() + 1);
         instructions.add(continueInstruction);
         expect(TokenType.SEMICOLON);
     }
