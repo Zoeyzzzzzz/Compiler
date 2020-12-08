@@ -261,6 +261,7 @@ public class Tokenizer {
                 if(now == 'n') stringLiteral += "\n";
                 else if(now == '\\') stringLiteral += "\\";
                 else if(now == '"') stringLiteral += '"';
+                else stringLiteral += now;
             }
             else if(now == '"' && pre != '\\') break;
             else if(now != '\\') stringLiteral += now;
