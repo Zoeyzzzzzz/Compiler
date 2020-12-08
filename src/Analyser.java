@@ -34,10 +34,12 @@ public final class Analyser {
     int localCount = 0;
     /** 操作符号栈 */
     Stack<TokenType> op = new Stack<>();
-
-
     /** 指令集合 */
     ArrayList<Instruction> instructions;
+    /** 是否在while循环体里面 */
+    boolean isInWhile = false;
+    /** 循环体的最后一个语句 */
+    int whileEnd = 0;
 
     public Analyser(Tokenizer tokenizer) {
         this.tokenizer = tokenizer;
@@ -194,26 +196,6 @@ public final class Analyser {
             update.setInitialized(true);
         }
     }
-
-//    /**
-//     * 获取变量在栈上的偏移
-//     *
-//     * @param name   符号名
-//     * @param curPos 当前位置（报错用）
-//     * @return 栈偏移
-//     * @throws AnalyzeError
-//     */
-//    private int getOffset(String name, Pos curPos) throws AnalyzeError {
-//        int position = searchSymbolByName(name);
-//        //符号表里没有该名字
-//        if (position == -1) {
-//            throw new AnalyzeError(ErrorCode.NotDeclared, curPos);
-//        }
-//        //如果有则返回在栈上的偏移
-//        else {
-//            return symbolTable.get(position).getStackOffset();
-//        }
-//    }
 
 
     /**
@@ -1095,6 +1077,18 @@ public final class Analyser {
         else if(check(TokenType.SEMICOLON))
             analyseEmptyStmt();
 
+        //break语句
+        //break_stmt -> 'break' ';'
+        else if(check(TokenType.BREAK_KW)){
+            analyseBreakStmt();
+        }
+
+        //continue语句
+        //continue_stmt -> 'continue' ';'
+        else if(check(TokenType.CONTINUE_KW)){
+            analyseContinueStmt();
+        }
+
         //表达式语句
         //expr_stmt -> expr ';'
         else
@@ -1196,12 +1190,14 @@ public final class Analyser {
         instructions.add(jumpInstruction);
         int index = instructions.size();
 
+        isInWhile = true;
         analyseBlockStmt();
+        isInWhile = false;
 
         //跳回while 判断语句
         Instruction instruction = new Instruction("br", 0);
         instructions.add(instruction);
-        int whileEnd = instructions.size();
+        whileEnd = instructions.size();
         instruction.setX(whileStart - whileEnd);
 
         jumpInstruction.setX(instructions.size() - index);
@@ -1258,11 +1254,26 @@ public final class Analyser {
     }
 
     /**
-     * 注释语句分析函数
+     * break语句分析函数
+     * break_stmt -> 'break' ';'
      * @throws CompileError
      */
-    private void analyseComment() throws CompileError{
-        expect(TokenType.COMMENT);
+    private void analyseBreakStmt() throws CompileError{
+        //如果当前语句不在循环体内，则报错
+        if(isInWhile == false)
+            throw new AnalyzeError(ErrorCode.Break, peekedToken.getStartPos());
+        instructions.add(new Instruction("br", whileEnd+1));
+    }
+
+    /**
+     * continue语句分析函数
+     * continue_stmt -> 'continue' ';'
+     * @throws CompileError
+     */
+    private void analyseContinueStmt() throws CompileError{
+        if(isInWhile == false)
+            throw new AnalyzeError(ErrorCode.Break, peekedToken.getStartPos());
+        instructions.add(new Instruction("br", whileEnd));
     }
 
     /**
