@@ -264,6 +264,7 @@ public class Tokenizer {
                 else if(now == '\\') {
                     stringLiteral += "\\";
                     now = it.nextChar();
+                    pre = now;
                 }
                 else if(now == '"') stringLiteral += '"';
                 else stringLiteral += now;
