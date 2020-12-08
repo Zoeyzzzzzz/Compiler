@@ -1208,6 +1208,7 @@ public final class Analyser {
             if(breakInstruction != null){
                 System.out.println("break的偏移：" + (firstWhileEnd - breakInstruction.getX()));
                 breakInstruction.setX(firstWhileEnd - breakInstruction.getX());
+                isInWhile = 0;
             }
         }
 
@@ -1282,7 +1283,6 @@ public final class Analyser {
         breakInstruction = new Instruction("br", instructions.size() + 1);
         instructions.add(breakInstruction);
         expect(TokenType.SEMICOLON);
-        isInWhile = 0;
     }
 
     /**
