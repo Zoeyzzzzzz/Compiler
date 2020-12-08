@@ -297,16 +297,20 @@ public class Tokenizer {
                 if (now == '\\') {
                     stringLiteral += '\\';
                     pre = ' ';
-                } else if (now == 'n') {
+                    i--;
+                }
+                else if (now == 'n') {
                     stringLiteral += '\n';
                     pre = now;
                     i--;
-                } else if (now == '"') {
+                }
+                else if (now == '"') {
                     stringLiteral += '"';
                     pre = now;
                     i--;
                 }
-            } else {
+            }
+            else {
                 if (now == '"') break;
                 else if (now != '\\') stringLiteral += now;
                 pre = now;
