@@ -144,7 +144,7 @@ public class Tokenizer {
                     char now = it.nextChar();
                     int i = 1000;
                     while(i>0){
-                        if(pre == '\\' && now == 'n')
+                        if(now == '\n' || (pre == '\\' && now == 'n'))
                             break;
                         pre = now;
                         i--;
