@@ -1209,7 +1209,7 @@ public final class Analyser {
             System.out.println("break的偏移：" + (whileEnd - breakInstruction.getX()));
             breakInstruction.setX(whileEnd - breakInstruction.getX());
         }
-        jumpInstruction.setX(instructions.size() - index);
+        jumpInstruction.setX(whileEnd - index);
     }
 
 
