@@ -256,39 +256,34 @@ public class Tokenizer {
         char pre = it.nextChar();
         int i = 65535;
         char now;
+        boolean cou = true;
         while(i>0){
             now = it.nextChar();
-             
+            if(now == '\\') cou = !cou;
 
             if(now == '"' && pre != '\\') break;
-            else if(pre == '\\'){
+            else if(pre == '\\' && cou==false){
                 if(now == 'n'){
                     stringLiteral += "\n";
-                    pre = now;
-            i--;
+                    cou = !cou;
                 }
                 else if(now == '\\') {
                     stringLiteral += "\\";
-                    pre = 'c';
-            i--;
+                    cou = !cou;
                 }
                 else if(now == '"'){
                     stringLiteral += '"';
-                    pre = now;
-            i--;
+                    cou = !cou;
                 }
                 else{
                     stringLiteral += now;
-                 pre = now;
-            i--;
                 }
             }
             else if(now != '\\'){
                 stringLiteral += now;
+            }
             pre = now;
             i--;
-            }
-            
         }
         return new Token(TokenType.STRING_LITERAL, stringLiteral, it.previousPos(), it.currentPos());
     }
