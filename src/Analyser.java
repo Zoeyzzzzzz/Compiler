@@ -39,8 +39,8 @@ public final class Analyser {
     /** 是否在while循环体里面 */
     //如果不在循环里则为0，如果在循环里在几层循环则为几
     int isInWhile = 0;
-    Instruction continueInstruction = null;
-    Instruction breakInstruction = null;
+    Instruction continueInstruction;
+    List<Instruction> breakInstruction;
 //    int firstWhileEnd = 0;
 
     public Analyser(Tokenizer tokenizer) {
@@ -1170,7 +1170,7 @@ public final class Analyser {
      */
     private void analyseWhileStmt() throws CompileError{
         continueInstruction = null;
-        if(isInWhile == 0) breakInstruction = null;
+        if(isInWhile == 0) breakInstruction = new ArrayList<Instruction>();
         expect(TokenType.WHILE_KW);
 
         instructions.add(new Instruction("br", 0));
@@ -1206,10 +1206,12 @@ public final class Analyser {
 
         //修改break语句的参数
         if(isInWhile == 0){
-            if(breakInstruction != null){
-                System.out.println("break的偏移：" + (whileEnd - breakInstruction.getX()));
-                breakInstruction.setX(whileEnd - breakInstruction.getX());
-                isInWhile = 0;
+            if(breakInstruction.size()!=0){
+                for(Instruction b:breakInstruction){
+                    System.out.println("break的偏移：" + (whileEnd - b.getX()));
+                    b.setX(whileEnd - b.getX());
+                    isInWhile = 0;
+                }
             }
         }
 
@@ -1282,9 +1284,9 @@ public final class Analyser {
         //如果当前语句不在循环体内，则报错
         if(isInWhile == 0)
             throw new AnalyzeError(ErrorCode.Break, peekedToken.getStartPos());
-
-        breakInstruction = new Instruction("br", instructions.size()+1);
-        instructions.add(breakInstruction);
+        Instruction instruction = new Instruction("br", instructions.size()+1);
+        breakInstruction.add(instruction);
+        instructions.add(instruction);
         expect(TokenType.SEMICOLON);
     }
 
