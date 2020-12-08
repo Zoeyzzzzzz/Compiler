@@ -264,27 +264,31 @@ public class Tokenizer {
             else if(pre == '\\'){
                 if(now == 'n'){
                     stringLiteral += "\n";
-                   
+                    pre = now;
+            i--;
                 }
                 else if(now == '\\') {
                     stringLiteral += "\\";
-                    
+                    pre = "";
+            i--;
                 }
                 else if(now == '"'){
                     stringLiteral += '"';
-                  
+                    pre = now;
+            i--;
                 }
                 else{
                     stringLiteral += now;
-                 
+                 pre = now;
+            i--;
                 }
             }
             else if(now != '\\'){
                 stringLiteral += now;
-            
-            }
             pre = now;
             i--;
+            }
+            
         }
         return new Token(TokenType.STRING_LITERAL, stringLiteral, it.previousPos(), it.currentPos());
     }
