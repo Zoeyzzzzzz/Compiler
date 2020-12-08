@@ -969,7 +969,14 @@ public final class Analyser {
         if(!check(TokenType.R_PAREN))
             analyseFunctionParamList(params, symbol);
         expect(TokenType.R_PAREN);
-        expect(TokenType.ARROW);
+
+        if(!check(TokenType.ARROW) && check(TokenType.COMMENT)){
+            next();
+            expect(TokenType.ARROW);
+        }
+        else
+            throw new AnalyzeError(ErrorCode.Break, peekedToken.getStartPos());
+//        expect(TokenType.ARROW);
         returnType = analyseTy();
         //将参数列表和返回类型赋值
         symbol.setParams(params);
