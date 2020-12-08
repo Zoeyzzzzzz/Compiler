@@ -274,7 +274,7 @@ public class Tokenizer {
                     stringLiteral += '"';
                     cou = !cou;
                 }
-                else if(cou == false){
+                else if(cou == true){
                     stringLiteral += now;
                 }
             }
