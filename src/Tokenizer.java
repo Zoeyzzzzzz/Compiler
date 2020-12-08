@@ -243,8 +243,8 @@ public class Tokenizer {
 //        char pre = it.nextChar();
 //        while(true){
 //            char now = it.nextChar();
-//            if(now == '"' && pre != '/') break;
-//            if(now!='/') stringLiteral+=now;
+//            if(now == '"' && pre != '\\') break;
+//            if(now!='\\') stringLiteral += now;
 //            pre = now;
 //        }
 //        return new Token(TokenType.STRING_LITERAL, stringLiteral, it.previousPos(), it.currentPos());
