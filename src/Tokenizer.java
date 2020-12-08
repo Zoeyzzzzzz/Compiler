@@ -140,15 +140,10 @@ public class Tokenizer {
             //有可能是注释或者除法 /或者//
             case '/':
                 if(it.peekChar() == '/'){
-                    char pre = '/';
                     char now = it.nextChar();
-                    int i = 1000;
-                    while(i>0){
-                        if(now == '\n' || (pre == '\\' && now == 'n'))
+                    while(true){
+                        if(now == '\n')
                             break;
-                        pre = now;
-                        i--;
-                        now = it.nextChar();
                     }
                 }
                 return new Token(TokenType.DIV, '/', it.previousPos(), it.currentPos());
