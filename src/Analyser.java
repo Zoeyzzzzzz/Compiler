@@ -1200,6 +1200,8 @@ public final class Analyser {
         instructions.add(instruction);
         int whileEnd = instructions.size();
         instruction.setX(whileStart - whileEnd);
+        System.out.println("continue的offset:" + (whileEnd-1-continueInstruction.getX()));
+        System.out.println("break的offset:" + (whileEnd - breakInstruction.getX()));
         if(continueInstruction != null) continueInstruction.setX(whileEnd-1-continueInstruction.getX());
         if(breakInstruction != null) breakInstruction.setX(whileEnd - breakInstruction.getX());
         jumpInstruction.setX(whileEnd - index);
