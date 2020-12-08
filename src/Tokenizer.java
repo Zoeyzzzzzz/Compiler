@@ -301,12 +301,12 @@ public class Tokenizer {
                 }
                 else if (now == 'n') {
                     stringLiteral += '\n';
-                    pre = now;
+                    pre = 'n';
                     i--;
                 }
                 else if (now == '"') {
                     stringLiteral += '"';
-                    pre = now;
+                    pre = '"';
                     i--;
                 }
             }
