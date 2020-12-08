@@ -145,7 +145,7 @@ public class Tokenizer {
                     int i = 1000;
                     while(i>0){
                         if(pre == '\\' && now == 'n')
-                            return new Token(TokenType.COMMENT, "", it.previousPos(), it.currentPos());
+                            break;
                         pre = now;
                         i--;
                         now = it.nextChar();
