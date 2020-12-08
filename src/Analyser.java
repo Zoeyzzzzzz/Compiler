@@ -86,24 +86,13 @@ public final class Analyser {
      */
     private boolean check(TokenType tt) throws TokenizeError {
         Token token = peek();
+        if(token.getTokenType() == TokenType.COMMENT){
+            next();
+            token = peek();
+        }
         return token.getTokenType() == tt;
     }
 
-    /**
-     * 如果下一个 token 的类型是 tt，则前进一个 token 并返回这个 token
-     *
-     * @param tt 类型
-     * @return 如果匹配则返回这个 token，否则返回 null
-     * @throws TokenizeError
-     */
-    private Token nextIf(TokenType tt) throws TokenizeError {
-        Token token = peek();
-        if (token.getTokenType() == tt) {
-            return next();
-        } else {
-            return null;
-        }
-    }
 
     /**
      * 如果下一个 token 的类型是 tt，则前进一个 token 并返回，否则抛出异常
@@ -116,6 +105,16 @@ public final class Analyser {
         Token token = peek();
         if (token.getTokenType() == tt) {
             return next();
+        }
+        else if(token.getTokenType() == TokenType.COMMENT){
+            next();
+            token = peek();
+            if (token.getTokenType() == tt) {
+                return next();
+            }
+            else {
+                throw new ExpectedTokenError(tt, token);
+            }
         }
         else {
             throw new ExpectedTokenError(tt, token);
