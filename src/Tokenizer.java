@@ -141,9 +141,11 @@ public class Tokenizer {
             case '/':
                 if(it.peekChar() == '/'){
                     char now = it.nextChar();
-                    while(now != '\n'){
+                    while(true){
+                        if(now == '\n') break;
                         now = it.nextChar();
                     }
+                    nextToken();
                 }
                 else
                     return new Token(TokenType.DIV, '/', it.previousPos(), it.currentPos());
