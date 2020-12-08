@@ -127,7 +127,8 @@ public class Output {
     private void addString(String x) {
         for (int i = 0; i < x.length();i++){
             char c = x.charAt(i);
-            output.add((byte)(c&0xff));
+            output.add((byte) c);
+//            output.add((byte)(c&0xff));
         }
     }
 }
