@@ -38,8 +38,8 @@ public final class Analyser {
     ArrayList<Instruction> instructions;
     /** 是否在while循环体里面 */
     boolean isInWhile = false;
-    /** 循环体的最后一个语句 */
-    int whileEnd = 0;
+    Instruction continueInstruction = null;
+    Instruction breakInstruction = null;
 
     public Analyser(Tokenizer tokenizer) {
         this.tokenizer = tokenizer;
@@ -1168,6 +1168,8 @@ public final class Analyser {
      * @throws CompileError
      */
     private void analyseWhileStmt() throws CompileError{
+        continueInstruction = null;
+        breakInstruction = null;
         expect(TokenType.WHILE_KW);
 
         instructions.add(new Instruction("br", 0));
@@ -1197,9 +1199,10 @@ public final class Analyser {
         //跳回while 判断语句
         Instruction instruction = new Instruction("br", 0);
         instructions.add(instruction);
-        whileEnd = instructions.size();
+        int whileEnd = instructions.size();
         instruction.setX(whileStart - whileEnd);
-
+        if(continueInstruction != null) continueInstruction.setX(whileEnd-continueInstruction.getX());
+        if(breakInstruction != null) breakInstruction.setX(whileEnd+1-breakInstruction.getX());
         jumpInstruction.setX(instructions.size() - index);
     }
 
@@ -1262,7 +1265,8 @@ public final class Analyser {
         //如果当前语句不在循环体内，则报错
         if(isInWhile == false)
             throw new AnalyzeError(ErrorCode.Break, peekedToken.getStartPos());
-        instructions.add(new Instruction("br", whileEnd+1));
+        breakInstruction = new Instruction("br", instructions.size());
+        instructions.add(breakInstruction);
     }
 
     /**
@@ -1273,7 +1277,8 @@ public final class Analyser {
     private void analyseContinueStmt() throws CompileError{
         if(isInWhile == false)
             throw new AnalyzeError(ErrorCode.Break, peekedToken.getStartPos());
-        instructions.add(new Instruction("br", whileEnd));
+        continueInstruction = new Instruction("br", instructions.size());
+        instructions.add(continueInstruction);
     }
 
     /**
