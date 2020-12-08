@@ -206,17 +206,29 @@ public class Tokenizer {
     //标识符
     private Token lexIdent() throws TokenizeError {
         String token="";
-        while(Character.isLetterOrDigit(it.peekChar())){
+        int i = 100;
+        while(Character.isLetterOrDigit(it.peekChar()) && i>0){
             token = token + it.nextChar();
+            i--;
         }
         return new Token(TokenType.IDENT, token, it.previousPos(), it.currentPos());
     }
+
+//    //标识符
+//    private Token lexIdent() throws TokenizeError {
+//        String token="";
+//        while(Character.isLetterOrDigit(it.peekChar())){
+//            token = token + it.nextChar();
+//        }
+//        return new Token(TokenType.IDENT, token, it.previousPos(), it.currentPos());
+//    }
 
     //字符串常量
     private Token lexString() throws TokenizeError {
         String stringLiteral = "\"";
         it.nextChar();
-        while(true){
+        int i = 65535;
+        while(i>0){
             if(it.peekChar() != '"') stringLiteral = stringLiteral + it.nextChar();
             //双引号可能被转义
             else{
@@ -232,6 +244,7 @@ public class Tokenizer {
                     break;
                 }
             }
+            i--;
         }
         //不要双引号
         String without = stringLiteral.substring(1, stringLiteral.length()-1);
