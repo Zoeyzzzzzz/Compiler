@@ -37,9 +37,11 @@ public final class Analyser {
     /** 指令集合 */
     ArrayList<Instruction> instructions;
     /** 是否在while循环体里面 */
-    boolean isInWhile = false;
+    //如果不在循环里则为0，如果在循环里在几层循环则为几
+    int isInWhile = 0;
     Instruction continueInstruction = null;
     Instruction breakInstruction = null;
+    int firstWhileEnd = 0;
 
     public Analyser(Tokenizer tokenizer) {
         this.tokenizer = tokenizer;
@@ -1168,7 +1170,7 @@ public final class Analyser {
      */
     private void analyseWhileStmt() throws CompileError{
         continueInstruction = null;
-        breakInstruction = null;
+        if(isInWhile == 0) breakInstruction = null;
         expect(TokenType.WHILE_KW);
 
         instructions.add(new Instruction("br", 0));
@@ -1191,24 +1193,28 @@ public final class Analyser {
         instructions.add(jumpInstruction);
         int index = instructions.size();
 
-        isInWhile = true;
+        isInWhile++;
         analyseBlockStmt();
-        isInWhile = false;
+        isInWhile--;
 
         //跳回while 判断语句
         Instruction instruction = new Instruction("br", 0);
         instructions.add(instruction);
         int whileEnd = instructions.size();
         instruction.setX(whileStart - whileEnd);
+        if(isInWhile == 0){
+            firstWhileEnd = whileEnd;
+            if(breakInstruction != null){
+                System.out.println("break的偏移：" + (firstWhileEnd - breakInstruction.getX()));
+                breakInstruction.setX(firstWhileEnd - breakInstruction.getX());
+            }
+        }
 
         if(continueInstruction != null){
             System.out.println("continue的偏移：" + (whileEnd-1-continueInstruction.getX()));
             continueInstruction.setX(whileEnd-1-continueInstruction.getX());
         }
-        if(breakInstruction != null){
-            System.out.println("break的偏移：" + (whileEnd - breakInstruction.getX()));
-            breakInstruction.setX(whileEnd - breakInstruction.getX());
-        }
+
         jumpInstruction.setX(whileEnd - index);
     }
 
@@ -1270,11 +1276,12 @@ public final class Analyser {
     private void analyseBreakStmt() throws CompileError{
         expect(TokenType.BREAK_KW);
         //如果当前语句不在循环体内，则报错
-        if(isInWhile == false)
+        if(isInWhile > 0)
             throw new AnalyzeError(ErrorCode.Break, peekedToken.getStartPos());
         breakInstruction = new Instruction("br", instructions.size() + 1);
         instructions.add(breakInstruction);
         expect(TokenType.SEMICOLON);
+        isInWhile = 0;
     }
 
     /**
@@ -1284,7 +1291,7 @@ public final class Analyser {
      */
     private void analyseContinueStmt() throws CompileError{
         expect(TokenType.CONTINUE_KW);
-        if(isInWhile == false)
+        if(isInWhile > 0)
             throw new AnalyzeError(ErrorCode.Break, peekedToken.getStartPos());
         continueInstruction = new Instruction("br", instructions.size() + 1);
         instructions.add(continueInstruction);
