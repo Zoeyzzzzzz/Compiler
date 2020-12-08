@@ -47,11 +47,7 @@ public class Tokenizer {
         else if (peek == '_') {
             return lexIdent();
         }
-        //注释
-        else if(peek == '/'){
-            return lexComment();
-        }
-        //运算符
+        //运算符或者注释
         else {
             return lexOperatorOrAnnotation();
         }
@@ -123,21 +119,6 @@ public class Tokenizer {
             return new Token(TokenType.IDENT, token, it.previousPos(), it.currentPos());
     }
 
-    private Token lexComment() throws TokenizeError{
-        char pre = it.nextChar();
-        char now = it.nextChar();
-        if(pre == now && pre == '/'){
-            int i = 1000;
-            while(i>0){
-                if(pre == '\\' && now == 'n')
-                    return new Token(TokenType.COMMENT, "//", it.previousPos(), it.currentPos());
-                pre = now;
-                i--;
-                now = it.nextChar();
-            }
-        }
-        throw new TokenizeError(ErrorCode.InvalidInput, it.previousPos());
-    }
 
     private Token lexOperatorOrAnnotation() throws TokenizeError {
         switch (it.nextChar()) {
@@ -156,7 +137,20 @@ public class Tokenizer {
             case '*':
                 return new Token(TokenType.MUL, '*', it.previousPos(), it.currentPos());
 
+            //有可能是注释或者除法 /或者//
             case '/':
+                if(it.peekChar() == '/'){
+                    char pre = '/';
+                    char now = it.nextChar();
+                    int i = 1000;
+                    while(i>0){
+                        if(pre == '\\' && now == 'n')
+                            return new Token(TokenType.COMMENT, "", it.previousPos(), it.currentPos());
+                        pre = now;
+                        i--;
+                        now = it.nextChar();
+                    }
+                }
                 return new Token(TokenType.DIV, '/', it.previousPos(), it.currentPos());
 
             //=或者==
