@@ -260,14 +260,11 @@ public class Tokenizer {
             now = it.nextChar();
             if(now == '"' && pre != '\\') break;
             else if(pre == '\\'){
-                while(now == '\\'){
+                if(now == 'n') stringLiteral += "\n";
+                else if(now == '\\') {
                     stringLiteral += "\\";
-                    pre = now;
-                    i--;
                     now = it.nextChar();
                 }
-                if(now == 'n') stringLiteral += "\n";
-                else if(now == '\\') stringLiteral += "\\";
                 else if(now == '"') stringLiteral += '"';
                 else stringLiteral += now;
             }
