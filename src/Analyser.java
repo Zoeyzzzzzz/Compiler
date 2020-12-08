@@ -1283,7 +1283,7 @@ public final class Analyser {
         if(isInWhile == 0)
             throw new AnalyzeError(ErrorCode.Break, peekedToken.getStartPos());
 
-        breakInstruction = new Instruction("br", instructions.size());
+        breakInstruction = new Instruction("br", instructions.size()+1);
         instructions.add(breakInstruction);
         expect(TokenType.SEMICOLON);
     }
@@ -1297,7 +1297,7 @@ public final class Analyser {
         expect(TokenType.CONTINUE_KW);
         if(isInWhile == 0)
             throw new AnalyzeError(ErrorCode.Break, peekedToken.getStartPos());
-        continueInstruction = new Instruction("br", instructions.size());
+        continueInstruction = new Instruction("br", instructions.size()+1);
         instructions.add(continueInstruction);
         expect(TokenType.SEMICOLON);
     }
