@@ -1076,6 +1076,7 @@ public final class Analyser {
      * | return_stmt
      * | block_stmt
      * | empty_stmt
+     * | comment 扩展C0，注释语句
      * @throws CompileError
      */
     private void analyseStmt() throws CompileError{
@@ -1108,6 +1109,10 @@ public final class Analyser {
         //empty_stmt -> ';'
         else if(check(TokenType.SEMICOLON))
             analyseEmptyStmt();
+
+        //注释语句
+        else if(check(TokenType.COMMENT))
+            analyseComment();
 
         //表达式语句
         //expr_stmt -> expr ';'
@@ -1269,6 +1274,14 @@ public final class Analyser {
      */
     private void analyseEmptyStmt() throws CompileError{
         expect(TokenType.SEMICOLON);
+    }
+
+    /**
+     * 注释语句分析函数
+     * @throws CompileError
+     */
+    private void analyseComment() throws CompileError{
+        expect(TokenType.COMMENT);
     }
 
     /**
