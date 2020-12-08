@@ -258,11 +258,11 @@ public class Tokenizer {
         while(i>0){
             char now = it.nextChar();
             if(now == '"' && pre != '\\') break;
-//            if(now!='\\') stringLiteral += now;
             stringLiteral += now;
             pre = now;
             i--;
         }
+        System.out.println(stringLiteral+"看这里！！！");
         return new Token(TokenType.STRING_LITERAL, stringLiteral, it.previousPos(), it.currentPos());
     }
 }
