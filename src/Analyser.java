@@ -41,7 +41,7 @@ public final class Analyser {
     int isInWhile = 0;
     Instruction continueInstruction = null;
     Instruction breakInstruction = null;
-    int firstWhileEnd = 0;
+//    int firstWhileEnd = 0;
 
     public Analyser(Tokenizer tokenizer) {
         this.tokenizer = tokenizer;
@@ -1203,15 +1203,17 @@ public final class Analyser {
         instructions.add(instruction);
         int whileEnd = instructions.size();
         instruction.setX(whileStart - whileEnd);
+
+        //修改break语句的参数
         if(isInWhile == 0){
-            firstWhileEnd = whileEnd;
             if(breakInstruction != null){
-                System.out.println("break的偏移：" + (firstWhileEnd - breakInstruction.getX()));
-                breakInstruction.setX(firstWhileEnd - breakInstruction.getX());
+                System.out.println("break的偏移：" + (whileEnd - breakInstruction.getX()));
+                breakInstruction.setX(whileEnd - breakInstruction.getX());
                 isInWhile = 0;
             }
         }
 
+        //修改continue语句的参数
         if(continueInstruction != null){
             System.out.println("continue的偏移：" + (whileEnd-1-continueInstruction.getX()));
             continueInstruction.setX(whileEnd-1-continueInstruction.getX());
@@ -1280,7 +1282,8 @@ public final class Analyser {
         //如果当前语句不在循环体内，则报错
         if(isInWhile == 0)
             throw new AnalyzeError(ErrorCode.Break, peekedToken.getStartPos());
-        breakInstruction = new Instruction("br", instructions.size() + 1);
+
+        breakInstruction = new Instruction("br", instructions.size());
         instructions.add(breakInstruction);
         expect(TokenType.SEMICOLON);
     }
@@ -1294,7 +1297,7 @@ public final class Analyser {
         expect(TokenType.CONTINUE_KW);
         if(isInWhile == 0)
             throw new AnalyzeError(ErrorCode.Break, peekedToken.getStartPos());
-        continueInstruction = new Instruction("br", instructions.size() + 1);
+        continueInstruction = new Instruction("br", instructions.size());
         instructions.add(continueInstruction);
         expect(TokenType.SEMICOLON);
     }
