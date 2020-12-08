@@ -1262,11 +1262,13 @@ public final class Analyser {
      * @throws CompileError
      */
     private void analyseBreakStmt() throws CompileError{
+        expect(TokenType.BREAK_KW);
         //如果当前语句不在循环体内，则报错
         if(isInWhile == false)
             throw new AnalyzeError(ErrorCode.Break, peekedToken.getStartPos());
         breakInstruction = new Instruction("br", instructions.size());
         instructions.add(breakInstruction);
+        expect(TokenType.SEMICOLON);
     }
 
     /**
@@ -1275,10 +1277,12 @@ public final class Analyser {
      * @throws CompileError
      */
     private void analyseContinueStmt() throws CompileError{
+        expect(TokenType.CONTINUE_KW);
         if(isInWhile == false)
             throw new AnalyzeError(ErrorCode.Break, peekedToken.getStartPos());
         continueInstruction = new Instruction("br", instructions.size());
         instructions.add(continueInstruction);
+        expect(TokenType.SEMICOLON);
     }
 
     /**
