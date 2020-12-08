@@ -140,6 +140,7 @@ public class Tokenizer {
             //有可能是注释或者除法 /或者//
             case '/':
                 if(it.peekChar() == '/'){
+                    it.nextChar();
                     char now = it.nextChar();
                     while(true){
                         if(now == '\n') break;
