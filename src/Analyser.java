@@ -761,7 +761,6 @@ public final class Analyser {
             throw new AnalyzeError(ErrorCode.Break, ident.getStartPos());
         //如果该ident是参数
         if (symbol.getIsParam() != -1) {
-            System.out.println("看这里1");
             //获取该参数的函数
             Symbol func = symbol.getFunction();
             //参数存在ret_slots后面
