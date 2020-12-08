@@ -1200,8 +1200,8 @@ public final class Analyser {
         instructions.add(instruction);
         int whileEnd = instructions.size();
         instruction.setX(whileStart - whileEnd);
-        if(continueInstruction != null) continueInstruction.setX(whileEnd-continueInstruction.getX());
-        if(breakInstruction != null) breakInstruction.setX(whileEnd+1-breakInstruction.getX());
+        if(continueInstruction != null) continueInstruction.setX(whileEnd-1-continueInstruction.getX());
+        if(breakInstruction != null) breakInstruction.setX(whileEnd-breakInstruction.getX());
         jumpInstruction.setX(instructions.size() - index);
     }
 
