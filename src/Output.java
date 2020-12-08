@@ -111,23 +111,23 @@ public class Output {
         }
     }
 
-    private void addString(String x) {
-        for (int i = 0; i < x.length();i++){
-            char c = x.charAt(i);
-            if(c == '\\'){
-                char d = x.charAt(++i);
-                if(d == '\\') output.add((byte) '\\');
-                else if(d == '|') output.add((byte) '|');
-                else if(d == 'n') output.add((byte) '\n');
-            }
-            output.add((byte)(c&0xff));
-        }
-    }
-
 //    private void addString(String x) {
 //        for (int i = 0; i < x.length();i++){
 //            char c = x.charAt(i);
+//            if(c == '\\'){
+//                char d = x.charAt(++i);
+//                if(d == '\\') output.add((byte) '\\');
+//                else if(d == '|') output.add((byte) '|');
+//                else if(d == 'n') output.add((byte) '\n');
+//            }
 //            output.add((byte)(c&0xff));
 //        }
 //    }
+
+    private void addString(String x) {
+        for (int i = 0; i < x.length();i++){
+            char c = x.charAt(i);
+            output.add((byte)(c&0xff));
+        }
+    }
 }
