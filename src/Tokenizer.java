@@ -146,7 +146,7 @@ public class Tokenizer {
                         if(now == '\n') break;
                         now = it.nextChar();
                     }
-                    nextToken();
+                    return nextToken();
                 }
                 else
                     return new Token(TokenType.DIV, '/', it.previousPos(), it.currentPos());
