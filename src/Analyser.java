@@ -86,10 +86,6 @@ public final class Analyser {
      */
     private boolean check(TokenType tt) throws TokenizeError {
         Token token = peek();
-        if(token.getTokenType() == TokenType.COMMENT){
-            next();
-            token = peek();
-        }
         return token.getTokenType() == tt;
     }
 
@@ -105,16 +101,6 @@ public final class Analyser {
         Token token = peek();
         if (token.getTokenType() == tt) {
             return next();
-        }
-        else if(token.getTokenType() == TokenType.COMMENT){
-            next();
-            token = peek();
-            if (token.getTokenType() == tt) {
-                return next();
-            }
-            else {
-                throw new ExpectedTokenError(tt, token);
-            }
         }
         else {
             throw new ExpectedTokenError(tt, token);
@@ -970,13 +956,7 @@ public final class Analyser {
             analyseFunctionParamList(params, symbol);
         expect(TokenType.R_PAREN);
 
-        if(!check(TokenType.ARROW) && check(TokenType.COMMENT)){
-            next();
-            expect(TokenType.ARROW);
-        }
-        else
-            throw new AnalyzeError(ErrorCode.Break, peekedToken.getStartPos());
-//        expect(TokenType.ARROW);
+        expect(TokenType.ARROW);
         returnType = analyseTy();
         //将参数列表和返回类型赋值
         symbol.setParams(params);
