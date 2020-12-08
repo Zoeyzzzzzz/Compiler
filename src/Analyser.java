@@ -467,6 +467,8 @@ public final class Analyser {
      * | literal_expr
      * | ident_expr
      * | group_expr
+     * | group_expr
+     * | comment
      * 在operator和as里为了消除左递归，可以将其变为
      * expr -> (binary_operator expr||'as' ty)*
      * @return
@@ -527,6 +529,10 @@ public final class Analyser {
         //group_expr -> '(' expr ')'
         else if(check(TokenType.L_PAREN))
             exprType = analyseGroupExpr();
+
+        //注释表达式
+        else if(check(TokenType.COMMENT))
+            analyseComment();
 
         //类型转换表达式，运算符表达式
         //如果依旧有expr
