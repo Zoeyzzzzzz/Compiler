@@ -260,10 +260,10 @@ public class Tokenizer {
             if(pre == '\\'){
                 if(now == 'n') stringLiteral += "\n";
                 else if(now == '\\') stringLiteral += "\\";
-                else if(now == '"') stringLiteral+='"';
+                else if(now == '"') stringLiteral += '"';
             }
-            if(now == '"' && pre != '\\') break;
-            if(now != '\\') stringLiteral += now;
+            else if(now == '"' && pre != '\\') break;
+            else if(now != '\\') stringLiteral += now;
             pre = now;
             i--;
         }
