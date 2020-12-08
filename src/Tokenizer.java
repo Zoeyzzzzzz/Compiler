@@ -223,43 +223,45 @@ public class Tokenizer {
 //        return new Token(TokenType.IDENT, token, it.previousPos(), it.currentPos());
 //    }
 
-    //字符串常量
-    private Token lexString() throws TokenizeError {
-        String stringLiteral = "\"";
-        it.nextChar();
-        int i = 65535;
-        while(i>0){
-            if(it.peekChar() != '"') stringLiteral = stringLiteral + it.nextChar();
-            //双引号可能被转义
-            else{
-                if(stringLiteral.charAt(stringLiteral.length()-1) == '\\'){
-                    if(stringLiteral.length() > 1 && stringLiteral.charAt(stringLiteral.length()-2) == '\\'){
-                        stringLiteral += it.nextChar();
-                        break;
-                    }
-                    else stringLiteral += it.nextChar();
-                }
-                else{
-                    stringLiteral += it.nextChar();
-                    break;
-                }
-            }
-            i--;
-        }
-        //不要双引号
-        String without = stringLiteral.substring(1, stringLiteral.length()-1);
-        return new Token(TokenType.STRING_LITERAL, without, it.previousPos(), it.currentPos());
-    }
 //    //字符串常量
 //    private Token lexString() throws TokenizeError {
-//        String stringLiteral = "";
-//        char pre = it.nextChar();
-//        while(true){
-//            char now = it.nextChar();
-//            if(now == '"' && pre != '\\') break;
-//            if(now!='\\') stringLiteral += now;
-//            pre = now;
+//        String stringLiteral = "\"";
+//        it.nextChar();
+//        int i = 65535;
+//        while(i>0){
+//            if(it.peekChar() != '"') stringLiteral = stringLiteral + it.nextChar();
+//            //双引号可能被转义
+//            else{
+//                if(stringLiteral.charAt(stringLiteral.length()-1) == '\\'){
+//                    if(stringLiteral.length() > 1 && stringLiteral.charAt(stringLiteral.length()-2) == '\\'){
+//                        stringLiteral += it.nextChar();
+//                        break;
+//                    }
+//                    else stringLiteral += it.nextChar();
+//                }
+//                else{
+//                    stringLiteral += it.nextChar();
+//                    break;
+//                }
+//            }
+//            i--;
 //        }
-//        return new Token(TokenType.STRING_LITERAL, stringLiteral, it.previousPos(), it.currentPos());
+//        //不要双引号
+//        String without = stringLiteral.substring(1, stringLiteral.length()-1);
+//        return new Token(TokenType.STRING_LITERAL, without, it.previousPos(), it.currentPos());
 //    }
+    //字符串常量
+    private Token lexString() throws TokenizeError {
+        String stringLiteral = "";
+        char pre = it.nextChar();
+        int i = 65535;
+        while(i>0){
+            char now = it.nextChar();
+            if(now == '"' && pre != '\\') break;
+            if(now!='\\') stringLiteral += now;
+            pre = now;
+            i--;
+        }
+        return new Token(TokenType.STRING_LITERAL, stringLiteral, it.previousPos(), it.currentPos());
+    }
 }
