@@ -4,60 +4,109 @@ import java.util.List;
 
 public class MyFunctions {
     //运算符指令
-    //目前只支持int
-    public static void operatorInstructions(TokenType calculate, List<Instruction> instructions) {
+    //目前只支持int，double
+    public static void operatorInstructions(TokenType calculate, List<Instruction> instructions, String type) throws AnalyzeError{
         Instruction instruction;
         switch (calculate) {
             //+
             case PLUS:
-                instruction = new Instruction("add.i", null);
+                if(type.equals("int"))
+                    instruction = new Instruction("add.i", null);
+                else if(type.equals("double"))
+                    instruction = new Instruction("add.f", null);
+                else
+                    throw new AnalyzeError(ErrorCode.InvalidInput);
                 instructions.add(instruction);
                 break;
             //-
             case MINUS:
-                instruction = new Instruction("sub.i", null);
+                if(type.equals("int"))
+                    instruction = new Instruction("sub.i", null);
+                else if(type.equals("double"))
+                    instruction = new Instruction("sub.f", null);
+                else
+                    throw new AnalyzeError(ErrorCode.InvalidInput);
                 instructions.add(instruction);
                 break;
             //*
             case MUL:
-                instruction = new Instruction("mul.i", null);
+                if(type.equals("int"))
+                    instruction = new Instruction("mul.i", null);
+                else if(type.equals("double"))
+                    instruction = new Instruction("mul.f", null);
+                else
+                    throw new AnalyzeError(ErrorCode.InvalidInput);
                 instructions.add(instruction);
                 break;
             ///
             case DIV:
-                instruction = new Instruction("div.i", null);
+                if(type.equals("int"))
+                    instruction = new Instruction("div.i", null);
+                else if(type.equals("double"))
+                    instruction = new Instruction("div.f", null);
+                else
+                    throw new AnalyzeError(ErrorCode.InvalidInput);
                 instructions.add(instruction);
                 break;
             //==
             case EQ:
-                instruction = new Instruction("cmp.i", null);
+                if(type.equals("int"))
+                    instruction = new Instruction("cmp.i", null);
+                else if(type.equals("double"))
+                    instruction = new Instruction("cmp.f", null);
+                else
+                    throw new AnalyzeError(ErrorCode.InvalidInput);
                 instructions.add(instruction);
+
                 instruction = new Instruction("not", null);
                 instructions.add(instruction);
                 break;
             //!=
             case NEQ:
-                instruction = new Instruction("cmp.i", null);
+                if(type.equals("int"))
+                    instruction = new Instruction("cmp.i", null);
+                else if(type.equals("double"))
+                    instruction = new Instruction("cmp.f", null);
+                else
+                    throw new AnalyzeError(ErrorCode.InvalidInput);
                 instructions.add(instruction);
                 break;
             //<
             case LT:
-                instruction = new Instruction("cmp.i", null);
+                if(type.equals("int"))
+                    instruction = new Instruction("cmp.i", null);
+                else if(type.equals("double"))
+                    instruction = new Instruction("cmp.f", null);
+                else
+                    throw new AnalyzeError(ErrorCode.InvalidInput);
                 instructions.add(instruction);
+
                 instruction = new Instruction("set.lt", null);
                 instructions.add(instruction);
                 break;
             //>
             case GT:
-                instruction = new Instruction("cmp.i", null);
+                if(type.equals("int"))
+                    instruction = new Instruction("cmp.i", null);
+                else if(type.equals("double"))
+                    instruction = new Instruction("cmp.f", null);
+                else
+                    throw new AnalyzeError(ErrorCode.InvalidInput);
                 instructions.add(instruction);
+
                 instruction = new Instruction("set.gt", null);
                 instructions.add(instruction);
                 break;
             //<=
             case LE:
-                instruction = new Instruction("cmp.i", null);
+                if(type.equals("int"))
+                    instruction = new Instruction("cmp.i", null);
+                else if(type.equals("double"))
+                    instruction = new Instruction("cmp.f", null);
+                else
+                    throw new AnalyzeError(ErrorCode.InvalidInput);
                 instructions.add(instruction);
+
                 instruction = new Instruction("set.gt", null);
                 instructions.add(instruction);
                 instruction = new Instruction("not", null);
@@ -65,8 +114,14 @@ public class MyFunctions {
                 break;
             //>=
             case GE:
-                instruction = new Instruction("cmp.i", null);
+                if(type.equals("int"))
+                    instruction = new Instruction("cmp.i", null);
+                else if(type.equals("double"))
+                    instruction = new Instruction("cmp.f", null);
+                else
+                    throw new AnalyzeError(ErrorCode.InvalidInput);
                 instructions.add(instruction);
+
                 instruction = new Instruction("set.lt", null);
                 instructions.add(instruction);
                 instruction = new Instruction("not", null);
