@@ -276,6 +276,7 @@ public class Tokenizer {
 
     //字符常量
     private Token lexChar() throws TokenizeError{
+        System.out.println("难道金这里了？");
         char c = it.nextChar();
         if(c == '\''){
             c = it.nextChar();
