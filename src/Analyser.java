@@ -486,9 +486,12 @@ public final class Analyser {
         //字面量表达式
         //如果首位是无符号数、浮点数、字符串常量
         //literal_expr -> UINT_LITERAL | DOUBLE_LITERAL | STRING_LITERAL
-        else if(check(TokenType.UINT_LITERAL) || check(TokenType.DOUBLE_LITERAL) || check(TokenType.STRING_LITERAL) || check(TokenType.CHAR_LITERAL))
+        else if(check(TokenType.UINT_LITERAL) || check(TokenType.DOUBLE_LITERAL) || check(TokenType.STRING_LITERAL) || check(TokenType.CHAR_LITERAL)){
             System.out.println("到这里了吗？");
             exprType = analyseLiteralExpr();
+        }
+
+
 
         //括号表达式
         //如果首位是左括号
