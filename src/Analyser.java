@@ -1207,16 +1207,14 @@ public final class Analyser {
         //修改break语句的参数
         if(breakInstruction.size()!=0){
             for(Instruction b:breakInstruction){
-                System.out.println("break的偏移：" + (whileEnd - b.getX()));
-                b.setX(whileEnd - b.getX()+1);
+                b.setX(whileEnd - b.getX());
             }
         }
 
         //修改continue语句的参数
         if(continueInstruction.size() != 0){
             for(Instruction c:continueInstruction){
-                System.out.println("continue的偏移：" + (whileEnd-c.getX()));
-                c.setX(whileEnd-c.getX());
+                c.setX(whileEnd-c.getX()-1);
             }
 
         }
