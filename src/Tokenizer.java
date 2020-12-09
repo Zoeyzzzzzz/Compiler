@@ -310,8 +310,8 @@ public class Tokenizer {
                         throw new TokenizeError(ErrorCode.InvalidInput, it.previousPos());
                 }
             }
+            throw new TokenizeError(ErrorCode.InvalidInput, it.previousPos());
         }
-        throw new TokenizeError(ErrorCode.InvalidInput, it.previousPos());
     }
 
 }
