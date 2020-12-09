@@ -87,11 +87,11 @@ public class Tokenizer {
         if(Pattern.matches(uintLiteral, num))
             return new Token(TokenType.UINT_LITERAL, Integer.parseInt(num), it.previousPos(), it.currentPos());
         else if(Pattern.matches(doubleLiteral, num))
-            return new Token(TokenType.UINT_LITERAL, Double.valueOf(num.toString()), it.previousPos(), it.currentPos());
+            return new Token(TokenType.DOUBLE_LITERAL, Double.valueOf(num.toString()), it.previousPos(), it.currentPos());
         else
             throw new TokenizeError(ErrorCode.InvalidInput, it.previousPos());
     }
-    
+
 
     private Token lexIdentOrKeyword() throws TokenizeError {
         // 请填空：
