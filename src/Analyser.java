@@ -1205,16 +1205,15 @@ public final class Analyser {
         //修改break语句的参数
         if(breakInstruction.size()!=0){
             for(Instruction b:breakInstruction){
-                b.setX(whileEnd - b.getX());
+                b.setX(whileEnd - b.getX()+1);
             }
         }
 
         //修改continue语句的参数
         if(continueInstruction.size() != 0){
             for(Instruction c:continueInstruction){
-                c.setX(whileEnd-c.getX()-1);
+                c.setX(whileEnd-c.getX());
             }
-
         }
 
         jumpInstruction.setX(whileEnd - index);
