@@ -276,7 +276,6 @@ public class Tokenizer {
 
     //字符常量
     private Token lexChar() throws TokenizeError{
-        System.out.println("难道金这里了？");
         char c = it.nextChar();
         if(c == '\''){
             c = it.nextChar();
@@ -304,8 +303,12 @@ public class Tokenizer {
                     throw new TokenizeError(ErrorCode.InvalidInput, it.previousPos());
             }
             else{
-                if(it.nextChar() == '\'')
+                if(it.nextChar() == '\''){
+                    System.out.println("到这了吗？");
+                    System.out.println(c);
                     return new Token(TokenType.CHAR_LITERAL, c, it.previousPos(), it.currentPos());
+                }
+
                 else
                     throw new TokenizeError(ErrorCode.InvalidInput, it.previousPos());
             }
