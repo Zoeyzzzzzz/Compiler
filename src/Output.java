@@ -86,9 +86,9 @@ public class Output {
             if(instruction.getX() != null){
                 //只有push的操作数是64位
                 if(opInt == 1)
-                    addLong(8, instruction.getX());
+                    addLong(8, (Long) instruction.getX());
                 else
-                    addInt(4, instruction.getX());
+                    addInt(4, (int) instruction.getX());
             }
         }
     }
@@ -111,18 +111,6 @@ public class Output {
         }
     }
 
-//    private void addString(String x) {
-//        for (int i = 0; i < x.length();i++){
-//            char c = x.charAt(i);
-//            if(c == '\\'){
-//                char d = x.charAt(++i);
-//                if(d == '\\') output.add((byte) '\\');
-//                else if(d == '|') output.add((byte) '|');
-//                else if(d == 'n') output.add((byte) '\n');
-//            }
-//            output.add((byte)(c&0xff));
-//        }
-//    }
 
     private void addString(String x) {
         for (int i = 0; i < x.length();i++){
