@@ -39,8 +39,8 @@ public final class Analyser {
     /** 是否在while循环体里面 */
     //如果不在循环里则为0，如果在循环里在几层循环则为几
     int isInWhile = 0;
-    List<Instruction> continueInstruction;
-    List<Instruction> breakInstruction;
+    List<Instruction> continueInstruction = new ArrayList<Instruction>();
+    List<Instruction> breakInstruction = new ArrayList<Instruction>();
 //    int firstWhileEnd = 0;
 
     public Analyser(Tokenizer tokenizer) {
@@ -1169,7 +1169,6 @@ public final class Analyser {
      * @throws CompileError
      */
     private void analyseWhileStmt() throws CompileError{
-        
         expect(TokenType.WHILE_KW);
 
         instructions.add(new Instruction("br", 0));
