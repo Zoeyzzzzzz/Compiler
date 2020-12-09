@@ -8,8 +8,8 @@ public class App {
     public static void main(String[] args) {
         try{
             //读入并开始
-            InputStream input = new FileInputStream("input.txt");
-//            InputStream input = new FileInputStream(args[0]);
+            //InputStream input = new FileInputStream("input.txt");
+            InputStream input = new FileInputStream(args[0]);
             Scanner scanner = new Scanner(input);
             StringIter it = new StringIter(scanner);
             Tokenizer tokenizer = new Tokenizer(it);
@@ -37,8 +37,8 @@ public class App {
             }
 
             //输出
-            DataOutputStream output = new DataOutputStream(new FileOutputStream(new File("output.txt")));
-//            DataOutputStream output = new DataOutputStream(new FileOutputStream(new File(args[1])));
+            //DataOutputStream output = new DataOutputStream(new FileOutputStream(new File("output.txt")));
+            DataOutputStream output = new DataOutputStream(new FileOutputStream(new File(args[1])));
             output.write(result);
         }
         catch (Exception e){
