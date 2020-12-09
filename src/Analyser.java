@@ -39,7 +39,7 @@ public final class Analyser {
     /** 是否在while循环体里面 */
     //如果不在循环里则为0，如果在循环里在几层循环则为几
     int isInWhile = 0;
-    Instruction continueInstruction;
+    List<Instruction> continueInstruction;
     List<Instruction> breakInstruction;
 //    int firstWhileEnd = 0;
 
@@ -1169,7 +1169,7 @@ public final class Analyser {
      * @throws CompileError
      */
     private void analyseWhileStmt() throws CompileError{
-        continueInstruction = null;
+        continueInstruction = new ArrayList<Instruction>();
         if(isInWhile == 0) breakInstruction = new ArrayList<Instruction>();
         expect(TokenType.WHILE_KW);
 
@@ -1205,20 +1205,20 @@ public final class Analyser {
         instruction.setX(whileStart - whileEnd);
 
         //修改break语句的参数
-        if(isInWhile == 0){
-            if(breakInstruction.size()!=0){
-                for(Instruction b:breakInstruction){
-                    System.out.println("break的偏移：" + (whileEnd - b.getX()));
-                    b.setX(whileEnd - b.getX());
-                    isInWhile = 0;
-                }
+        if(breakInstruction.size()!=0){
+            for(Instruction b:breakInstruction){
+                System.out.println("break的偏移：" + (whileEnd - b.getX()+1));
+                b.setX(whileEnd - b.getX());
             }
         }
 
         //修改continue语句的参数
-        if(continueInstruction != null){
-            System.out.println("continue的偏移：" + (whileEnd-1-continueInstruction.getX()));
-            continueInstruction.setX(whileEnd-1-continueInstruction.getX());
+        if(continueInstruction.size() != 0){
+            for(Instruction c:continueInstruction){
+                System.out.println("continue的偏移：" + (whileEnd-c.getX()));
+                c.setX(whileEnd-c.getX());
+            }
+
         }
 
         jumpInstruction.setX(whileEnd - index);
@@ -1299,8 +1299,9 @@ public final class Analyser {
         expect(TokenType.CONTINUE_KW);
         if(isInWhile == 0)
             throw new AnalyzeError(ErrorCode.Break, peekedToken.getStartPos());
-        continueInstruction = new Instruction("br", instructions.size()+1);
-        instructions.add(continueInstruction);
+        Instruction instruction = new Instruction("br", instructions.size()+1);
+        continueInstruction.add(instruction);
+        instructions.add(instruction);
         expect(TokenType.SEMICOLON);
     }
 
