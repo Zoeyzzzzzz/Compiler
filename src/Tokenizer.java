@@ -1,5 +1,5 @@
-
-import java.util.regex.*;
+import java.sql.SQLOutput;
+import java.util.regex.Pattern;
 
 public class Tokenizer {
 
@@ -54,23 +54,6 @@ public class Tokenizer {
         }
     }
 
-//    //无符号整数或者浮点数
-//    private Token lexUIntOrDouble() throws TokenizeError {
-//
-//        // 请填空：
-//        // 直到查看下一个字符不是数字为止:
-//        // -- 前进一个字符，并存储这个字符
-//        String num = "" ;
-//        while (Character.isDigit(it.peekChar())) {
-//            num += it.nextChar();
-//        }
-//        return new Token(TokenType.UINT_LITERAL, Integer.parseInt(num), it.previousPos(), it.currentPos());
-//        // 解析存储的字符串为无符号整数
-//        // 解析成功则返回无符号整数类型的token，否则返回编译错误
-//        //
-//        // Token 的 Value 应填写数字的值
-//    }
-
     //无符号整数或者浮点数
     private Token lexUIntOrDouble() throws TokenizeError {
         //如果是无符号整数则为1，如果是浮点数则为2，如果错误则为0
@@ -91,7 +74,6 @@ public class Tokenizer {
         else
             throw new TokenizeError(ErrorCode.InvalidInput, it.previousPos());
     }
-
 
     private Token lexIdentOrKeyword() throws TokenizeError {
         // 请填空：
@@ -254,43 +236,84 @@ public class Tokenizer {
 
     //字符串常量
     private Token lexString() throws TokenizeError {
-        String stringLiteral = "" ;
-        char pre = it.nextChar();
-        int i = 65535;
-        char now;
-        boolean cou = true;
-        while (i > 0) {
-            now = it.nextChar();
-            if (pre == '\\') {
-                if (now == '\\') {
-                    stringLiteral += '\\';
-                    pre = ' ';
-                    i--;
+        //如果是字符串常量
+        if(it.peekChar() == '"'){
+            String stringLiteral = "" ;
+            char pre = it.nextChar();
+            int i = 65535;
+            char now;
+            while (i > 0) {
+                now = it.nextChar();
+                if (pre == '\\') {
+                    if (now == '\\') {
+                        stringLiteral += '\\';
+                        pre = ' ';
+                        i--;
+                    }
+                    else if (now == 'n') {
+                        stringLiteral += '\n';
+                        pre = 'n';
+                        i--;
+                    }
+                    else if (now == '"') {
+                        stringLiteral += '"';
+                        pre = '"';
+                        i--;
+                    }
+                    else if(now == '\''){
+                        stringLiteral += '\'';
+                        pre = '\'';
+                        i--;
+                    }
                 }
-                else if (now == 'n') {
-                    stringLiteral += '\n';
-                    pre = 'n';
-                    i--;
-                }
-                else if (now == '"') {
-                    stringLiteral += '"';
-                    pre = '"';
-                    i--;
-                }
-                else if(now == '\''){
-                    stringLiteral += '\'';
-                    pre = '\'';
+                else {
+                    if (now == '"') break;
+                    else if (now != '\\') stringLiteral += now;
+                    pre = now;
                     i--;
                 }
             }
-            else {
-                if (now == '"') break;
-                else if (now != '\\') stringLiteral += now;
-                pre = now;
-                i--;
+            return new Token(TokenType.STRING_LITERAL, stringLiteral, it.previousPos(), it.currentPos());
+        }
+        //如果是字符常量
+        else{
+            char c = it.nextChar();
+            char aws;
+            if(c == '\''){
+                c = it.nextChar();
+                //不能是单引号
+                if(c == '\'')
+                    throw new TokenizeError(ErrorCode.InvalidInput, it.previousPos());
+                else if(c == '\\'){
+                    c = it.nextChar();
+                    char cc = it.nextChar();
+                    if(cc != '\'')
+                        throw new TokenizeError(ErrorCode.InvalidInput, it.previousPos());
+                    if(c == '\'')
+                        return new Token(TokenType.CHAR_LITERAL, '\'', it.previousPos(), it.currentPos());
+                    else if(c == '"')
+                        return new Token(TokenType.CHAR_LITERAL, '"', it.previousPos(), it.currentPos());
+                    else if(c == '\\')
+                        return new Token(TokenType.CHAR_LITERAL, '\\', it.previousPos(), it.currentPos());
+                    else if(c == 't')
+                        return new Token(TokenType.CHAR_LITERAL, '\t', it.previousPos(), it.currentPos());
+                    else if(c == 'r')
+                        return new Token(TokenType.CHAR_LITERAL, '\r', it.previousPos(), it.currentPos());
+                    else if(c == 'n')
+                        return new Token(TokenType.CHAR_LITERAL, '\n', it.previousPos(), it.currentPos());
+                    else
+                        throw new TokenizeError(ErrorCode.InvalidInput, it.previousPos());
+                }
+                else{
+                    c = it.nextChar();
+                    if(it.nextChar() == '\'')
+                        return new Token(TokenType.CHAR_LITERAL, c, it.previousPos(), it.currentPos());
+                    else
+                        throw new TokenizeError(ErrorCode.InvalidInput, it.previousPos());
+                }
             }
         }
-        return new Token(TokenType.STRING_LITERAL, stringLiteral, it.previousPos(), it.currentPos());
+        throw new TokenizeError(ErrorCode.InvalidInput, it.previousPos());
     }
 
 }
