@@ -1207,8 +1207,8 @@ public final class Analyser {
         //修改break语句的参数
         if(breakInstruction.size()!=0){
             for(Instruction b:breakInstruction){
-                System.out.println("break的偏移：" + (whileEnd - b.getX()+1));
-                b.setX(whileEnd - b.getX());
+                System.out.println("break的偏移：" + (whileEnd - b.getX()));
+                b.setX(whileEnd - b.getX()+1);
             }
         }
 
