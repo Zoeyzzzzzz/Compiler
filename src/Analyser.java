@@ -1219,7 +1219,6 @@ public final class Analyser {
         }
 
         jumpInstruction.setX(whileEnd - index);
-        System.out.println("第一个r" + (whileEnd - index));
 
         if(isInWhile == 0){
             continueInstruction = new ArrayList<BreakAndContinue>();
