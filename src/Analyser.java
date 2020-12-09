@@ -810,6 +810,17 @@ public final class Analyser {
             globalCount++;
             return "string";
         }
+        else if(check(TokenType.CHAR_LITERAL)){
+            Token token = next();
+            char name = (char) token.getValue();
+            //加入全局符号表
+            globalTable.add(new Global(1, 1, String.valueOf(name)));
+
+            //加入指令集
+            instructions.add(new Instruction("push", globalCount));
+            globalCount++;
+            return "int";
+        }
         else
             throw new AnalyzeError(ErrorCode.Break, peekedToken.getStartPos());
     }
