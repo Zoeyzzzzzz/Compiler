@@ -304,7 +304,6 @@ public class Tokenizer {
                         throw new TokenizeError(ErrorCode.InvalidInput, it.previousPos());
                 }
                 else{
-                    char cc = it.nextChar();
                     if(it.nextChar() == '\'')
                         return new Token(TokenType.CHAR_LITERAL, c, it.previousPos(), it.currentPos());
                     else
