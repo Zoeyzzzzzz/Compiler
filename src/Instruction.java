@@ -6,9 +6,9 @@ public class Instruction {
     //操作
     String op;
     //参数
-    Object x;
+    Integer x;
 
-    public Instruction(String op, Object x){
+    public Instruction(String op, Integer x){
         this.op = op;
         this.x = x;
     }
@@ -21,7 +21,7 @@ public class Instruction {
         this.op = op;
     }
 
-    public Object getX() {
+    public Integer getX() {
         return x;
     }
 
