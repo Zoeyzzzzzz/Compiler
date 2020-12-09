@@ -1215,7 +1215,7 @@ public final class Analyser {
             }
         }
 
-        jumpInstruction.setX(whileEnd - index+1);
+        jumpInstruction.setX(whileEnd - index);
         continueInstruction = new HashMap<Instruction, Integer>();
         if(isInWhile == 0) breakInstruction = new HashMap<Instruction, Integer>();
     }
