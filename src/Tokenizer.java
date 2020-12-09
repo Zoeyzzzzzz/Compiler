@@ -278,7 +278,6 @@ public class Tokenizer {
         //如果是字符常量
         else{
             char c = it.nextChar();
-            char aws;
             if(c == '\''){
                 c = it.nextChar();
                 //不能是单引号
@@ -305,7 +304,7 @@ public class Tokenizer {
                         throw new TokenizeError(ErrorCode.InvalidInput, it.previousPos());
                 }
                 else{
-                    c = it.nextChar();
+                    char cc = it.nextChar();
                     if(it.nextChar() == '\'')
                         return new Token(TokenType.CHAR_LITERAL, c, it.previousPos(), it.currentPos());
                     else
