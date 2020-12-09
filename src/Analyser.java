@@ -514,7 +514,7 @@ public final class Analyser {
             //类型转换表达式
             //as_expr -> expr 'as' ty
             if(check(TokenType.AS_KW))
-                exprType = analyseAsExpr();
+                exprType = analyseAsExpr(exprType);
 
             //运算符表达式
             //operator_expr -> expr binary_operator expr
@@ -849,9 +849,26 @@ public final class Analyser {
      * @return
      * @throws CompileError
      */
-    private String analyseAsExpr() throws CompileError{
+    private String analyseAsExpr(String exprType) throws CompileError{
         expect(TokenType.AS_KW);
-        return analyseTy();
+        String rightType =  analyseTy();
+        //如果是将int转为double
+        if(exprType.equals("int") && rightType.equals("double")){
+            instructions.add(new Instruction("itof", null));
+            return "double";
+        }
+        //如果是将double转为int
+        else if(exprType.equals("double") && rightType.equals("int")){
+            instructions.add(new Instruction("ftoi", null));
+            return "int";
+        }
+        //如果是类型转换为自己
+        else if(exprType.equals(rightType)){
+            return exprType;
+        }
+        else
+            throw new AnalyzeError(ErrorCode.Break, peekedToken.getStartPos());
+
     }
 
 
