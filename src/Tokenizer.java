@@ -40,13 +40,13 @@ public class Tokenizer {
         else if (peek == '"') {
             return lexString();
         }
-        //字符常量
-        else if (peek == '\'') {
-            return lexChar();
-        }
         //标识符
         else if (peek == '_') {
             return lexIdent();
+        }
+        //字符常量
+        else if (peek == '\'') {
+            return lexChar();
         }
         //运算符或者注释
         else {
