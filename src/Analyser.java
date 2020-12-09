@@ -240,14 +240,14 @@ public final class Analyser {
         Symbol main = symbolTable.get(mainLoca);
         if (!main.getReturnType().equals("void")) {
             //加载地址
-            initInstructions.add(new Instruction("stackalloc", 1));
-            initInstructions.add(new Instruction("call", functionCount-1));
-            initInstructions.add(new Instruction("popn", 1));
+            initInstructions.add(new Instruction("stackalloc", (Integer) 1));
+            initInstructions.add(new Instruction("call", (Integer) functionCount-1));
+            initInstructions.add(new Instruction("popn", (Integer) 1));
         }
         else {
             //加载地址
-            initInstructions.add(new Instruction("stackalloc", 0));
-            initInstructions.add(new Instruction("call", functionCount-1));
+            initInstructions.add(new Instruction("stackalloc", (Integer) 0));
+            initInstructions.add(new Instruction("call", (Integer) functionCount-1));
         }
         _start = new Function("_start", globalCount, 0, 0, 0, initInstructions, floor, "void");
         globalCount++;
@@ -302,11 +302,11 @@ public final class Analyser {
 
             //加入取地址操作
             if (floor == 1) {
-                instruction = new Instruction("globa", globalCount);
+                instruction = new Instruction("globa", (Integer) globalCount);
                 instructions.add(instruction);
             }
             else {
-                instruction = new Instruction("loca", localCount);
+                instruction = new Instruction("loca",(Integer) localCount);
                 instructions.add(instruction);
             }
             next();
@@ -368,11 +368,11 @@ public final class Analyser {
 
         //加入取地址操作
         if (floor == 1) {
-            instruction = new Instruction("globa", globalCount);
+            instruction = new Instruction("globa", (Integer) globalCount);
             instructions.add(instruction);
         }
         else {
-            instruction = new Instruction("loca", localCount);
+            instruction = new Instruction("loca", (Integer) localCount);
             instructions.add(instruction);
         }
         expect(TokenType.ASSIGN);
@@ -563,19 +563,19 @@ public final class Analyser {
 
             //参数存在ret_slots后面
             if (func.getReturnType().equals("int"))
-                instructions.add(new Instruction("arga", 1 + symbol.getIsParam()));
+                instructions.add(new Instruction("arga", (Integer) 1 + symbol.getIsParam()));
             else if(func.getReturnType().equals("double"))
-                instructions.add(new Instruction("arga", 2 + symbol.getIsParam()));
+                instructions.add(new Instruction("arga", (Integer) 2 + symbol.getIsParam()));
             else
-                instructions.add(new Instruction("arga", symbol.getIsParam()));
+                instructions.add(new Instruction("arga", (Integer) symbol.getIsParam()));
         }
         //如果该ident是局部变量
         else if(symbol.getIsParam() == -1 && symbol.getFloor() != 1) {
-            instructions.add(new Instruction("loca", symbol.getLocalId()));
+            instructions.add(new Instruction("loca", (Integer) (Integer) symbol.getLocalId()));
         }
         //如果该ident是全局变量
         else {
-            instructions.add(new Instruction("globa", symbol.getGlobalId()));
+            instructions.add(new Instruction("globa", (Integer) symbol.getGlobalId()));
         }
 
         //在符号表里，继续分析
@@ -620,7 +620,7 @@ public final class Analyser {
             //并将库函数加入全局符号表
             String name = symbol.getName();
             globalTable.add(new Global(1, name.length(), name));
-            instruction = new Instruction("callname", globalCount);
+            instruction = new Instruction("callname", (Integer) globalCount);
             globalCount++;
         }
 
@@ -631,7 +631,7 @@ public final class Analyser {
                 throw new AnalyzeError(ErrorCode.Break, ident.getStartPos());
             //如果是函数
             int id = MyFunctions.getFunctionId(symbol.getName(), functionTable);
-            instruction = new Instruction("call", id + 1);
+            instruction = new Instruction("call", (Integer) id + 1);
         }
 
         String name = symbol.getName();
@@ -643,9 +643,9 @@ public final class Analyser {
         //分配返回值空间
         //不确定，double的返回值也占1吗
         if (MyFunctions.functionHasReturn(name, functionTable))
-            instructions.add(new Instruction("stackalloc", 1));
+            instructions.add(new Instruction("stackalloc", (Integer) 1));
         else
-            instructions.add(new Instruction("stackalloc", 0));
+            instructions.add(new Instruction("stackalloc", (Integer) 0));
 
         if(!check(TokenType.R_PAREN)){
             analyseCallParamList(symbol);
@@ -765,19 +765,19 @@ public final class Analyser {
             Symbol func = symbol.getFunction();
             //参数存在ret_slots后面
             if (func.getReturnType().equals("int"))
-                instructions.add(new Instruction("arga", 1 + symbol.getIsParam()));
+                instructions.add(new Instruction("arga", (Integer) 1 + symbol.getIsParam()));
             else if(func.getReturnType().equals("double"))
-                instructions.add(new Instruction("arga", 2 + symbol.getIsParam()));
+                instructions.add(new Instruction("arga", (Integer) 2 + symbol.getIsParam()));
             else
-                instructions.add(new Instruction("arga", symbol.getIsParam()));
+                instructions.add(new Instruction("arga", (Integer) symbol.getIsParam()));
         }
         //如果该ident是局部变量
         else if(symbol.getIsParam() == -1 && symbol.getFloor() != 1) {
-            instructions.add(new Instruction("loca", symbol.getLocalId()));
+            instructions.add(new Instruction("loca", (Integer) symbol.getLocalId()));
         }
         //如果该ident是全局变量
         else {
-            instructions.add(new Instruction("globa", symbol.getGlobalId()));
+            instructions.add(new Instruction("globa", (Integer) symbol.getGlobalId()));
         }
         instructions.add(new Instruction("load.64", null));
         return symbol.getType();
@@ -798,7 +798,7 @@ public final class Analyser {
         else if(check(TokenType.DOUBLE_LITERAL)){
             //不确定，push能push double吗
             Token token = next();
-            instructions.add(new Instruction("push", token.getValue()));
+            instructions.add(new Instruction("push", (Integer) token.getValue()));
             return "double";
         }
         else if(check(TokenType.STRING_LITERAL)){
@@ -808,7 +808,7 @@ public final class Analyser {
             globalTable.add(new Global(1, name.length(), name));
 
             //加入指令集
-            instructions.add(new Instruction("push", globalCount));
+            instructions.add(new Instruction("push", (Integer) globalCount));
             globalCount++;
             return "string";
         }
@@ -1114,9 +1114,9 @@ public final class Analyser {
             throw new AnalyzeError(ErrorCode.Break, peekedToken.getStartPos());
 
         //如果前面的计算值非0则跳转
-        instructions.add(new Instruction("br.true", 1));
+        instructions.add(new Instruction("br.true", (Integer) 1));
         //无条件跳转
-        Instruction jump = new Instruction("br", 0);
+        Instruction jump = new Instruction("br", (Integer) 0);
         instructions.add(jump);
         //当前指令位置
         int index = instructions.size();
@@ -1134,7 +1134,7 @@ public final class Analyser {
                 expect(TokenType.ELSE_KW);
                 if(check(TokenType.L_BRACE)){
                     analyseBlockStmt();
-                    instructions.add(new Instruction("br", 0));
+                    instructions.add(new Instruction("br", (Integer) 0));
                 }
                 else if(check(TokenType.IF_KW))
                     analyseIfStmt();
@@ -1152,7 +1152,7 @@ public final class Analyser {
                 expect(TokenType.ELSE_KW);
                 if(check(TokenType.L_BRACE)){
                     analyseBlockStmt();
-                    instructions.add(new Instruction("br", 0));
+                    instructions.add(new Instruction("br", (Integer) 0));
                 }
                 else if(check(TokenType.IF_KW))
                     analyseIfStmt();
@@ -1171,7 +1171,7 @@ public final class Analyser {
     private void analyseWhileStmt() throws CompileError{
         expect(TokenType.WHILE_KW);
 
-        instructions.add(new Instruction("br", 0));
+        instructions.add(new Instruction("br", (Integer) 0));
         int whileStart = instructions.size();
 
         String type = analyseExpr();
@@ -1185,9 +1185,9 @@ public final class Analyser {
             throw new AnalyzeError(ErrorCode.Break, peekedToken.getStartPos());
 
         //brTrue
-        instructions.add(new Instruction("br.true", 1));
+        instructions.add(new Instruction("br.true", (Integer) 1));
         //br
-        Instruction jumpInstruction = new Instruction("br", 0);
+        Instruction jumpInstruction = new Instruction("br", (Integer) 0);
         instructions.add(jumpInstruction);
         int index = instructions.size();
 
@@ -1197,7 +1197,7 @@ public final class Analyser {
 
 
         //跳回while 判断语句
-        Instruction instruction = new Instruction("br", 0);
+        Instruction instruction = new Instruction("br", (Integer) 0);
         instructions.add(instruction);
         int whileEnd = instructions.size();
         instruction.setX(whileStart - whileEnd);
@@ -1239,7 +1239,7 @@ public final class Analyser {
         //如果返回类型不是void
         if(!nowFuntion.getReturnType().equals("void")){
             //加载返回地址
-            instructions.add(new Instruction("arga", 0));
+            instructions.add(new Instruction("arga", (Integer) 0));
 
             type = analyseExpr();
             while (!op.empty())
@@ -1286,7 +1286,7 @@ public final class Analyser {
         //如果当前语句不在循环体内，则报错
         if(isInWhile == 0)
             throw new AnalyzeError(ErrorCode.Break, peekedToken.getStartPos());
-        Instruction instruction = new Instruction("br", 0);
+        Instruction instruction = new Instruction("br", (Integer) 0);
         breakInstruction.add(new BreakAndContinue(instruction, instructions.size()+1, isInWhile));
         instructions.add(instruction);
         expect(TokenType.SEMICOLON);
@@ -1301,7 +1301,7 @@ public final class Analyser {
         expect(TokenType.CONTINUE_KW);
         if(isInWhile == 0)
             throw new AnalyzeError(ErrorCode.Break, peekedToken.getStartPos());
-        Instruction instruction = new Instruction("br", 0);
+        Instruction instruction = new Instruction("br", (Integer) 0);
         continueInstruction.add(new BreakAndContinue(instruction, instructions.size()+1, isInWhile));
         instructions.add(instruction);
         expect(TokenType.SEMICOLON);
