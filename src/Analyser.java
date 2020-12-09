@@ -795,7 +795,9 @@ public final class Analyser {
             return "int";
         }
         else if(check(TokenType.DOUBLE_LITERAL)){
-            next();
+            Token token = next();
+            String binary = Long.toBinaryString(Double.doubleToRawLongBits((Double) token.getValue()));
+            instructions.add(new Instruction("push", toTen(binary)));
             return "double";
         }
         else if(check(TokenType.STRING_LITERAL)){
@@ -817,6 +819,17 @@ public final class Analyser {
         }
         else
             throw new AnalyzeError(ErrorCode.Break, peekedToken.getStartPos());
+    }
+
+    public static Long toTen(String a){
+        Long aws = 0L;
+        Long xi = 1L;
+        for(int i=a.length()-1; i>=0; i--){
+            if(a.charAt(i) == '1')
+                aws += xi;
+            xi *=2;
+        }
+        return aws;
     }
 
     /**
