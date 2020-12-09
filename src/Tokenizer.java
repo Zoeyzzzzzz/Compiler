@@ -1,4 +1,5 @@
-import java.sql.SQLOutput;
+
+import java.util.regex.*;
 
 public class Tokenizer {
 
@@ -53,21 +54,44 @@ public class Tokenizer {
         }
     }
 
+//    //无符号整数或者浮点数
+//    private Token lexUIntOrDouble() throws TokenizeError {
+//
+//        // 请填空：
+//        // 直到查看下一个字符不是数字为止:
+//        // -- 前进一个字符，并存储这个字符
+//        String num = "" ;
+//        while (Character.isDigit(it.peekChar())) {
+//            num += it.nextChar();
+//        }
+//        return new Token(TokenType.UINT_LITERAL, Integer.parseInt(num), it.previousPos(), it.currentPos());
+//        // 解析存储的字符串为无符号整数
+//        // 解析成功则返回无符号整数类型的token，否则返回编译错误
+//        //
+//        // Token 的 Value 应填写数字的值
+//    }
+
     //无符号整数或者浮点数
     private Token lexUIntOrDouble() throws TokenizeError {
-        // 请填空：
-        // 直到查看下一个字符不是数字为止:
-        // -- 前进一个字符，并存储这个字符
+        //如果是无符号整数则为1，如果是浮点数则为2，如果错误则为0
+        int type = 1;
+
         String num = "" ;
-        while (Character.isDigit(it.peekChar())) {
+        while (Character.isDigit(it.peekChar()) || it.peekChar()=='.' || it.peekChar() == 'e' || it.peekChar() == 'E' || it.peekChar() == '+' || it.peekChar() == '-') {
             num += it.nextChar();
         }
-        return new Token(TokenType.UINT_LITERAL, Integer.parseInt(num), it.previousPos(), it.currentPos());
-        // 解析存储的字符串为无符号整数
-        // 解析成功则返回无符号整数类型的token，否则返回编译错误
-        //
-        // Token 的 Value 应填写数字的值
+//        String doubleLiteral="[0-9]+ . [0-9]+ ([eE] [+-]? [0-9]+)?";
+        //摸鱼版
+        String doubleLiteral = "[0-9]+.[0-9]+([eE][-+]?[0-9]+)?";
+        String uintLiteral = "[0-9]+";
+        if(Pattern.matches(uintLiteral, num))
+            return new Token(TokenType.UINT_LITERAL, Integer.parseInt(num), it.previousPos(), it.currentPos());
+        else if(Pattern.matches(doubleLiteral, num))
+            return new Token(TokenType.UINT_LITERAL, Double.valueOf(num.toString()), it.previousPos(), it.currentPos());
+        else
+            throw new TokenizeError(ErrorCode.InvalidInput, it.previousPos());
     }
+    
 
     private Token lexIdentOrKeyword() throws TokenizeError {
         // 请填空：
