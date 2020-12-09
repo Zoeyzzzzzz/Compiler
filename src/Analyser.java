@@ -1,5 +1,6 @@
 
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -1205,14 +1206,16 @@ public final class Analyser {
         //修改break语句的参数
         if(breakInstruction.size()!=0){
             for(Instruction b:breakInstruction){
-                b.setX(whileEnd - b.getX()+1);
+                System.out.println(whileEnd - b.getX());
+                b.setX(whileEnd - b.getX());
             }
         }
 
         //修改continue语句的参数
         if(continueInstruction.size() != 0){
             for(Instruction c:continueInstruction){
-                c.setX(whileEnd-c.getX());
+                System.out.println(whileEnd - c.getX());
+                c.setX(whileEnd-c.getX()-1);
             }
         }
 
