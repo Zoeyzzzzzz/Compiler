@@ -1203,10 +1203,11 @@ public final class Analyser {
         int whileEnd = instructions.size();
         instruction.setX(whileStart - whileEnd);
 
+        System.out.println(whileEnd);
         //修改break语句的参数
         if(breakInstruction.size()!=0){
             for(Instruction b:breakInstruction){
-                System.out.println(whileEnd - b.getX());
+                System.out.println("break:"+(whileEnd - b.getX()));
                 b.setX(whileEnd - b.getX());
             }
         }
@@ -1214,7 +1215,7 @@ public final class Analyser {
         //修改continue语句的参数
         if(continueInstruction.size() != 0){
             for(Instruction c:continueInstruction){
-                System.out.println(whileEnd - c.getX());
+                System.out.println("continue:"+(whileEnd - c.getX()));
                 c.setX(whileEnd-c.getX()-1);
             }
         }
