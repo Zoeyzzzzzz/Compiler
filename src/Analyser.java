@@ -1169,8 +1169,7 @@ public final class Analyser {
      * @throws CompileError
      */
     private void analyseWhileStmt() throws CompileError{
-        continueInstruction = new ArrayList<Instruction>();
-        if(isInWhile == 0) breakInstruction = new ArrayList<Instruction>();
+        
         expect(TokenType.WHILE_KW);
 
         instructions.add(new Instruction("br", 0));
@@ -1220,6 +1219,8 @@ public final class Analyser {
         }
 
         jumpInstruction.setX(whileEnd - index);
+        continueInstruction = new ArrayList<Instruction>();
+        if(isInWhile == 0) breakInstruction = new ArrayList<Instruction>();
     }
 
 
