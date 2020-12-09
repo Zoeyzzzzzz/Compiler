@@ -1200,7 +1200,7 @@ public final class Analyser {
         instructions.add(instruction);
         int whileEnd = instructions.size();
         instruction.setX(whileStart - whileEnd);
-        
+
         //修改break语句的参数
         if(breakInstruction.size()!=0){
             for(Instruction b:breakInstruction.keySet()){
@@ -1215,7 +1215,7 @@ public final class Analyser {
             }
         }
 
-        jumpInstruction.setX(whileEnd - index);
+        jumpInstruction.setX(whileEnd - index+1);
         continueInstruction = new HashMap<Instruction, Integer>();
         if(isInWhile == 0) breakInstruction = new HashMap<Instruction, Integer>();
     }
