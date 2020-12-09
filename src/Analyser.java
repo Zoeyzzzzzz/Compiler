@@ -641,6 +641,7 @@ public final class Analyser {
 
         //给返回值分配空间
         //分配返回值空间
+        //不确定，double的返回值也占1吗
         if (MyFunctions.functionHasReturn(name, functionTable))
             instructions.add(new Instruction("stackalloc", 1));
         else
@@ -651,11 +652,6 @@ public final class Analyser {
         }
         expect(TokenType.R_PAREN);
 
-        //将该函数里还没弹出来的符号弹出
-        //弹栈
-        //不确定
-//        while (op.peek() != TokenType.L_PAREN)
-//            MyFunctions.operatorInstructions(op.pop(), instructions);
         //弹出左括号
         op.pop();
 
@@ -800,7 +796,9 @@ public final class Analyser {
             return "int";
         }
         else if(check(TokenType.DOUBLE_LITERAL)){
-            next();
+            //不确定，push能push double吗
+            Token token = next();
+            instructions.add(new Instruction("push", token.getValue()));
             return "double";
         }
         else if(check(TokenType.STRING_LITERAL)){
