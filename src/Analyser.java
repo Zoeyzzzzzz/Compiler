@@ -1200,12 +1200,10 @@ public final class Analyser {
         instructions.add(instruction);
         int whileEnd = instructions.size();
         instruction.setX(whileStart - whileEnd);
-
-        System.out.println(whileEnd);
+        
         //修改break语句的参数
         if(breakInstruction.size()!=0){
             for(Instruction b:breakInstruction.keySet()){
-                System.out.println("break:"+(whileEnd - b.getX()));
                 b.setX(whileEnd - breakInstruction.get(b));
             }
         }
@@ -1213,7 +1211,6 @@ public final class Analyser {
         //修改continue语句的参数
         if(continueInstruction.size() != 0){
             for(Instruction c:continueInstruction.keySet()){
-                System.out.println("continue:"+(whileEnd - c.getX()));
                 c.setX(whileEnd-continueInstruction.get(c)-1);
             }
         }
@@ -1284,7 +1281,6 @@ public final class Analyser {
         if(isInWhile == 0)
             throw new AnalyzeError(ErrorCode.Break, peekedToken.getStartPos());
         Instruction instruction = new Instruction("br", 0);
-        System.out.println(instructions.size()+1);
         breakInstruction.put(instruction, instructions.size()+1);
         instructions.add(instruction);
         expect(TokenType.SEMICOLON);
@@ -1300,7 +1296,6 @@ public final class Analyser {
         if(isInWhile == 0)
             throw new AnalyzeError(ErrorCode.Break, peekedToken.getStartPos());
         Instruction instruction = new Instruction("br", 0);
-        System.out.println(instructions.size()+1);
         continueInstruction.put(instruction, instructions.size()+1);
         instructions.add(instruction);
         expect(TokenType.SEMICOLON);
