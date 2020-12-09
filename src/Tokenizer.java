@@ -42,7 +42,7 @@ public class Tokenizer {
         }
         //字符常量
         else if (peek == '\'') {
-            return lexString();
+            return lexChar();
         }
         //标识符
         else if (peek == '_') {
@@ -236,82 +236,80 @@ public class Tokenizer {
 
     //字符串常量
     private Token lexString() throws TokenizeError {
-        //如果是字符串常量
-        if(it.peekChar() == '"'){
-            String stringLiteral = "" ;
-            char pre = it.nextChar();
-            int i = 65535;
-            char now;
-            while (i > 0) {
-                now = it.nextChar();
-                if (pre == '\\') {
-                    if (now == '\\') {
-                        stringLiteral += '\\';
-                        pre = ' ';
-                        i--;
-                    }
-                    else if (now == 'n') {
-                        stringLiteral += '\n';
-                        pre = 'n';
-                        i--;
-                    }
-                    else if (now == '"') {
-                        stringLiteral += '"';
-                        pre = '"';
-                        i--;
-                    }
-                    else if(now == '\''){
-                        stringLiteral += '\'';
-                        pre = '\'';
-                        i--;
-                    }
+        String stringLiteral = "" ;
+        char pre = it.nextChar();
+        int i = 65535;
+        char now;
+        while (i > 0) {
+            now = it.nextChar();
+            if (pre == '\\') {
+                if (now == '\\') {
+                    stringLiteral += '\\';
+                    pre = ' ';
+                    i--;
                 }
-                else {
-                    if (now == '"') break;
-                    else if (now != '\\') stringLiteral += now;
-                    pre = now;
+                else if (now == 'n') {
+                    stringLiteral += '\n';
+                    pre = 'n';
+                    i--;
+                }
+                else if (now == '"') {
+                    stringLiteral += '"';
+                    pre = '"';
+                    i--;
+                }
+                else if(now == '\''){
+                    stringLiteral += '\'';
+                    pre = '\'';
                     i--;
                 }
             }
-            return new Token(TokenType.STRING_LITERAL, stringLiteral, it.previousPos(), it.currentPos());
-        }
-        //如果是字符常量
-        else{
-            char c = it.nextChar();
-            if(c == '\''){
-                c = it.nextChar();
-                //不能是单引号
-                if(c == '\'')
-                    throw new TokenizeError(ErrorCode.InvalidInput, it.previousPos());
-                else if(c == '\\'){
-                    c = it.nextChar();
-                    char cc = it.nextChar();
-                    if(cc != '\'')
-                        throw new TokenizeError(ErrorCode.InvalidInput, it.previousPos());
-                    if(c == '\'')
-                        return new Token(TokenType.CHAR_LITERAL, '\'', it.previousPos(), it.currentPos());
-                    else if(c == '"')
-                        return new Token(TokenType.CHAR_LITERAL, '"', it.previousPos(), it.currentPos());
-                    else if(c == '\\')
-                        return new Token(TokenType.CHAR_LITERAL, '\\', it.previousPos(), it.currentPos());
-                    else if(c == 't')
-                        return new Token(TokenType.CHAR_LITERAL, '\t', it.previousPos(), it.currentPos());
-                    else if(c == 'r')
-                        return new Token(TokenType.CHAR_LITERAL, '\r', it.previousPos(), it.currentPos());
-                    else if(c == 'n')
-                        return new Token(TokenType.CHAR_LITERAL, '\n', it.previousPos(), it.currentPos());
-                    else
-                        throw new TokenizeError(ErrorCode.InvalidInput, it.previousPos());
-                }
-                else{
-                    if(it.nextChar() == '\'')
-                        return new Token(TokenType.CHAR_LITERAL, c, it.previousPos(), it.currentPos());
-                    else
-                        throw new TokenizeError(ErrorCode.InvalidInput, it.previousPos());
-                }
+            else {
+                if (now == '"') break;
+                else if (now != '\\') stringLiteral += now;
+                pre = now;
+                i--;
             }
-            throw new TokenizeError(ErrorCode.InvalidInput, it.previousPos());
         }
+        return new Token(TokenType.STRING_LITERAL, stringLiteral, it.previousPos(), it.currentPos());
+    }
+
+    //字符常量
+    private Token lexChar() throws TokenizeError{
+        char c = it.nextChar();
+        if(c == '\''){
+            c = it.nextChar();
+            //不能是单引号
+            if(c == '\'')
+                throw new TokenizeError(ErrorCode.InvalidInput, it.previousPos());
+            else if(c == '\\'){
+                c = it.nextChar();
+                char cc = it.nextChar();
+                if(cc != '\'')
+                    throw new TokenizeError(ErrorCode.InvalidInput, it.previousPos());
+                if(c == '\'')
+                    return new Token(TokenType.CHAR_LITERAL, '\'', it.previousPos(), it.currentPos());
+                else if(c == '"')
+                    return new Token(TokenType.CHAR_LITERAL, '"', it.previousPos(), it.currentPos());
+                else if(c == '\\')
+                    return new Token(TokenType.CHAR_LITERAL, '\\', it.previousPos(), it.currentPos());
+                else if(c == 't')
+                    return new Token(TokenType.CHAR_LITERAL, '\t', it.previousPos(), it.currentPos());
+                else if(c == 'r')
+                    return new Token(TokenType.CHAR_LITERAL, '\r', it.previousPos(), it.currentPos());
+                else if(c == 'n')
+                    return new Token(TokenType.CHAR_LITERAL, '\n', it.previousPos(), it.currentPos());
+                else
+                    throw new TokenizeError(ErrorCode.InvalidInput, it.previousPos());
+            }
+            else{
+                if(it.nextChar() == '\'')
+                    return new Token(TokenType.CHAR_LITERAL, c, it.previousPos(), it.currentPos());
+                else
+                    throw new TokenizeError(ErrorCode.InvalidInput, it.previousPos());
+            }
+        }
+        throw new TokenizeError(ErrorCode.InvalidInput, it.previousPos());
     }
 
 }
