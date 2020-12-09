@@ -313,7 +313,7 @@ public final class Analyser {
             exprType = analyseExpr();
             //将运算符弹栈并计算
             while (!op.empty())
-                MyFunctions.operatorInstructions(op.pop(), instructions);
+                MyFunctions.operatorInstructions(op.pop(), instructions, exprType);
 
             //将值存入
             instruction = new Instruction("store.64", null);
@@ -379,7 +379,7 @@ public final class Analyser {
         exprType = analyseExpr();
         //将运算符弹栈并计算
         while (!op.empty())
-            MyFunctions.operatorInstructions(op.pop(), instructions);
+            MyFunctions.operatorInstructions(op.pop(), instructions, exprType);
 
         //将值存入
         instruction = new Instruction("store.64", null);
@@ -583,7 +583,7 @@ public final class Analyser {
         String exprType = analyseExpr();
         //弹栈
         while (!op.empty())
-            MyFunctions.operatorInstructions(op.pop(), instructions);
+            MyFunctions.operatorInstructions(op.pop(), instructions, exprType);
 
         //如果等式左边是常量，则报错
         if (symbol.isConst)
@@ -651,10 +651,6 @@ public final class Analyser {
         }
         expect(TokenType.R_PAREN);
 
-        //将该函数里还没弹出来的符号弹出
-        //弹栈
-        while (op.peek() != TokenType.L_PAREN)
-            MyFunctions.operatorInstructions(op.pop(), instructions);
         //弹出左括号
         op.pop();
 
@@ -735,7 +731,7 @@ public final class Analyser {
         //如果对应位置的参数类型不匹配，则报错
         String type = analyseExpr();
         while (!op.empty() && op.peek() != TokenType.L_PAREN)
-            MyFunctions.operatorInstructions(op.pop(), instructions);
+            MyFunctions.operatorInstructions(op.pop(), instructions, type);
 
         if(!params.get(i).getType().equals(type))
             throw new AnalyzeError(ErrorCode.Break, peekedToken.getStartPos());
@@ -746,12 +742,12 @@ public final class Analyser {
             //如果对应位置的参数类型不匹配，则报错
             type = analyseExpr();
             while (!op.empty() && op.peek() != TokenType.L_PAREN)
-                MyFunctions.operatorInstructions(op.pop(), instructions);
+                MyFunctions.operatorInstructions(op.pop(), instructions, type);
 
             if(!params.get(i).getType().equals(type))
                 throw new AnalyzeError(ErrorCode.Break, peekedToken.getStartPos());
             while (!op.empty() && op.peek() != TokenType.L_PAREN)
-                MyFunctions.operatorInstructions(op.pop(), instructions);
+                MyFunctions.operatorInstructions(op.pop(), instructions, type);
             i++;
         }
         //如果参数个数不匹配，则报错
@@ -838,7 +834,7 @@ public final class Analyser {
 
         //弹栈
         while (op.peek() != TokenType.L_PAREN)
-            MyFunctions.operatorInstructions(op.pop(), instructions);
+            MyFunctions.operatorInstructions(op.pop(), instructions, exprType);
 
         //弹出左括号
         op.pop();
@@ -878,8 +874,7 @@ public final class Analyser {
             int in = Operator.getOrder(op.peek());
             int out = Operator.getOrder(token.getTokenType());
             if (Operator.priority[in][out] > 0)
-                MyFunctions.operatorInstructions(op.pop(), instructions);
-
+                MyFunctions.operatorInstructions(op.pop(), instructions, exprType);
         }
         op.push(token.getTokenType());
 
@@ -1113,7 +1108,7 @@ public final class Analyser {
         String type = analyseExpr();
         //弹栈
         while (!op.empty())
-            MyFunctions.operatorInstructions(op.pop(), instructions);
+            MyFunctions.operatorInstructions(op.pop(), instructions, type);
 
         //if语句判断里面的表达式返回类型不能是void，只能是int、double
         //如果不是int或者double，则报错
@@ -1184,7 +1179,7 @@ public final class Analyser {
         String type = analyseExpr();
         //弹栈
         while (!op.empty())
-            MyFunctions.operatorInstructions(op.pop(), instructions);
+            MyFunctions.operatorInstructions(op.pop(), instructions, type);
 
         //while语句判断里面的表达式返回类型不能是void，只能是int、double
         //如果不是int或者double，则报错
@@ -1251,7 +1246,7 @@ public final class Analyser {
 
             type = analyseExpr();
             while (!op.empty())
-                MyFunctions.operatorInstructions(op.pop(), instructions);
+                MyFunctions.operatorInstructions(op.pop(), instructions, type);
 
             //放入地址中
             instructions.add(new Instruction("store.64", null));
@@ -1270,7 +1265,7 @@ public final class Analyser {
         returnFunction = nowFuntion;
 
         while (!op.empty())
-            MyFunctions.operatorInstructions(op.pop(), instructions);
+            MyFunctions.operatorInstructions(op.pop(), instructions, type);
         //ret
         instructions.add(new Instruction("ret", null));
     }
@@ -1321,10 +1316,10 @@ public final class Analyser {
      * @throws CompileError
      */
     private void analyseExprStmt() throws CompileError{
-        analyseExpr();
+        String exprType = analyseExpr();
         //弹栈
         while (!op.empty())
-            MyFunctions.operatorInstructions(op.pop(), instructions);
+            MyFunctions.operatorInstructions(op.pop(), instructions, exprType);
         expect(TokenType.SEMICOLON);
     }
 
