@@ -37,10 +37,9 @@ public final class Analyser {
     /** 是否在while循环体里面 */
     //如果不在循环里则为0，如果在循环里在几层循环则为几
     int isInWhile = 0;
-    Map<Instruction, Integer> continueInstruction = new HashMap<Instruction, Integer>();
-    Map<Instruction, Integer> breakInstruction = new HashMap<Instruction, Integer>();
-//    List<Instruction> continueInstruction = new ArrayList<Instruction>();
-//    List<Instruction> breakInstruction = new ArrayList<Instruction>();
+    List<BreakAndContinue> continueInstruction = new ArrayList<BreakAndContinue>();
+    List<BreakAndContinue> breakInstruction = new ArrayList<BreakAndContinue>();
+
 
     public Analyser(Tokenizer tokenizer) {
         this.tokenizer = tokenizer;
@@ -1203,21 +1202,27 @@ public final class Analyser {
 
         //修改break语句的参数
         if(breakInstruction.size()!=0){
-            for(Instruction b:breakInstruction.keySet()){
-                b.setX(whileEnd - breakInstruction.get(b));
+            for(BreakAndContinue b:breakInstruction){
+                if(b.getWhileNum() == isInWhile+1)
+                    b.getInstruction().setX(whileEnd - b.getLocation());
             }
         }
 
         //修改continue语句的参数
         if(continueInstruction.size() != 0){
-            for(Instruction c:continueInstruction.keySet()){
-                c.setX(whileEnd-continueInstruction.get(c)-1);
+            for(BreakAndContinue c:continueInstruction){
+                if(c.getWhileNum() == isInWhile+1)
+                    c.getInstruction().setX(whileEnd - c.getLocation() - 1);
             }
         }
 
         jumpInstruction.setX(whileEnd - index);
-        continueInstruction = new HashMap<Instruction, Integer>();
-        if(isInWhile == 0) breakInstruction = new HashMap<Instruction, Integer>();
+        System.out.println("第一个r" + (whileEnd - index));
+
+        if(isInWhile == 0){
+            continueInstruction = new ArrayList<BreakAndContinue>();
+            breakInstruction = new ArrayList<BreakAndContinue>();
+        }
     }
 
 
@@ -1281,7 +1286,7 @@ public final class Analyser {
         if(isInWhile == 0)
             throw new AnalyzeError(ErrorCode.Break, peekedToken.getStartPos());
         Instruction instruction = new Instruction("br", 0);
-        breakInstruction.put(instruction, instructions.size()+1);
+        breakInstruction.add(new BreakAndContinue(instruction, instructions.size()+1, isInWhile));
         instructions.add(instruction);
         expect(TokenType.SEMICOLON);
     }
@@ -1296,7 +1301,7 @@ public final class Analyser {
         if(isInWhile == 0)
             throw new AnalyzeError(ErrorCode.Break, peekedToken.getStartPos());
         Instruction instruction = new Instruction("br", 0);
-        continueInstruction.put(instruction, instructions.size()+1);
+        continueInstruction.add(new BreakAndContinue(instruction, instructions.size()+1, isInWhile));
         instructions.add(instruction);
         expect(TokenType.SEMICOLON);
     }
