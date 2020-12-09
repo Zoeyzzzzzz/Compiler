@@ -812,13 +812,8 @@ public final class Analyser {
         }
         else if(check(TokenType.CHAR_LITERAL)){
             Token token = next();
-            char name = (char) token.getValue();
-            //加入全局符号表
-            globalTable.add(new Global(1, 1, String.valueOf(name)));
-
             //加入指令集
-            instructions.add(new Instruction("push", globalCount));
-            globalCount++;
+            instructions.add(new Instruction("push", (Integer) token.getValue()));
             return "int";
         }
         else
