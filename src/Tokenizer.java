@@ -288,27 +288,23 @@ public class Tokenizer {
                 if(cc != '\'')
                     throw new TokenizeError(ErrorCode.InvalidInput, it.previousPos());
                 if(c == '\'')
-                    return new Token(TokenType.CHAR_LITERAL, '\'', it.previousPos(), it.currentPos());
+                    return new Token(TokenType.CHAR_LITERAL, (int) '\'', it.previousPos(), it.currentPos());
                 else if(c == '"')
-                    return new Token(TokenType.CHAR_LITERAL, '"', it.previousPos(), it.currentPos());
+                    return new Token(TokenType.CHAR_LITERAL, (int) '"', it.previousPos(), it.currentPos());
                 else if(c == '\\')
-                    return new Token(TokenType.CHAR_LITERAL, '\\', it.previousPos(), it.currentPos());
+                    return new Token(TokenType.CHAR_LITERAL, (int) '\\', it.previousPos(), it.currentPos());
                 else if(c == 't')
-                    return new Token(TokenType.CHAR_LITERAL, '\t', it.previousPos(), it.currentPos());
+                    return new Token(TokenType.CHAR_LITERAL, (int) '\t', it.previousPos(), it.currentPos());
                 else if(c == 'r')
-                    return new Token(TokenType.CHAR_LITERAL, '\r', it.previousPos(), it.currentPos());
+                    return new Token(TokenType.CHAR_LITERAL, (int) '\r', it.previousPos(), it.currentPos());
                 else if(c == 'n')
-                    return new Token(TokenType.CHAR_LITERAL, '\n', it.previousPos(), it.currentPos());
+                    return new Token(TokenType.CHAR_LITERAL, (int) '\n', it.previousPos(), it.currentPos());
                 else
                     throw new TokenizeError(ErrorCode.InvalidInput, it.previousPos());
             }
             else{
-                if(it.nextChar() == '\''){
-                    System.out.println("到这了吗？");
-                    System.out.println(c);
-                    return new Token(TokenType.CHAR_LITERAL, c, it.previousPos(), it.currentPos());
-                }
-
+                if(it.nextChar() == '\'')
+                    return new Token(TokenType.CHAR_LITERAL, (int) c, it.previousPos(), it.currentPos());
                 else
                     throw new TokenizeError(ErrorCode.InvalidInput, it.previousPos());
             }
