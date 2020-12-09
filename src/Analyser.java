@@ -945,7 +945,7 @@ public final class Analyser {
 
         int retSlot = 0;
         if(returnType.equals("int")) retSlot = 1;
-        else if(returnType.equals("double")) retSlot = 2;
+        else if(returnType.equals("double")) retSlot = 1;
         //将函数插入函数表
         Function function = new Function(name, globalCount, retSlot, params.size(), localCount, instructions, floor, returnType);
         functionTable.add(function);
